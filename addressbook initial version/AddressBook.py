@@ -36,7 +36,7 @@ class AddressBook(object):
         self.conn.commit()
 
     def update(self, fn, ln, entry, value):
-        self.c.execute('UPDATE AddressBook SET (?) = (?) WHERE first_name = (?) AND last_name = (?)', (entry, value, fn, ln))
+        self.c.execute("UPDATE AddressBook SET %s = (?) WHERE first_name = (?) AND last_name = (?)" % entry, (value, fn, ln))
         self.conn.commit()
 
     def sort_by_ln(self):
