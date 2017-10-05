@@ -1,4 +1,4 @@
-from AddressBook import AddressBook
+ from AddressBook import AddressBook
 import os
 
 #  Store the name of the address books currently using
@@ -7,7 +7,7 @@ currentbook = ''
 # Save the existing address book
 booklist = []
 
-# Control the process 1-> Main manu 2-> entering an address book
+# Control the process 1-> Main menu 2-> entering an address book
 process = 1;
 
 def update_booklist():
@@ -81,13 +81,13 @@ Press 7 to return
 first name, last name, address, city, state, zip code, phone number, email
 
 ''')
-                fn = input("First name: ")
-                ln = input("Last name: ")
+                fn = input("First Name: ")
+                ln = input("Last Name: ")
                 ad = input("Address: ")
                 ci = input("City: ")
                 sta = input("State: ")
-                zip = input("Zip code: ")
-                pho = input("Phone number: ")
+                zip = input("Zipcode: ")
+                pho = input("Phone Number: ")
                 emai = input("Email: ")
                 book.add(fn, ln, ad, ci, sta, zip, pho, emai)
             elif control == "5": # Update the info
