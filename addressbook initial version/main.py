@@ -31,7 +31,7 @@ Press 5 to quit the app.
 
 ''')
         if control == "1":  # Add
-            name = input(" Enter a name for a new address book: ")
+            name = input("Enter a name for a new address book: ")
             currentbook = name
             booklist.append(name)
             book = AddressBook(name)
@@ -41,19 +41,24 @@ Press 5 to quit the app.
             for i in booklist:
                 print(i)
         elif control == "3": # Open
-            name = input(" Enter the name of the address book: ")
-            currentbook = name
-            book = AddressBook(name)
-            process = 2
+            name = input("Enter the name of the address book: ")
+
+            booklist = update_booklist()
+            if name in booklist:
+                currentbook = name
+                book = AddressBook(name)
+                process = 2
+            else:
+                print("Sorry, there is no such an address book")
         elif control == "4": # Delete
             booklist = update_booklist()
-            name = input(" Enter the name of the address book: ")
+            name = input("Enter the name of the address book: ")
             if name in booklist:
                 os.remove("%s.db" % name)
-                print(" Delete successfully")
+                print("Delete successfully")
                 process = 1
             else:
-                print(" Sorry, there is no such an address book")
+                print("Sorry, there is no such an address book")
         elif control == "5": # Quit
             break
     elif process == 2:    # Opening a specific address book
@@ -97,7 +102,8 @@ fisrt name, last name, the entry to be updated, the new value of the entry
 ''')
                 fn = input("First name: ")
                 ln = input("Last name: ")
-                entry = input("Entry: ")
+                entry = input('''Entry: (first_name, last_name, address, city, state, zip_code, phone_number, email)
+''')
                 value = input("Value: ")
                 book.update(fn, ln, entry, value)
             elif control == "6": # Delete a person from the address book
