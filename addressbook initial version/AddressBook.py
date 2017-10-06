@@ -57,7 +57,7 @@ class AddressBook(object):
 
     def DeleteAddressBook(self):
         '''
-        Deletes addressbook from database
+        Deletes AddressBook from database
 
         Returns:
             Bool -> True: If it successfully deleted AddressBook
@@ -96,6 +96,7 @@ class AddressBook(object):
         Returns:
             sorted list of contacts
         '''
+        return
 
     def GetAllContacts_ByLastName(self):
         '''

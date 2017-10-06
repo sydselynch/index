@@ -31,7 +31,7 @@ process = 1;
      Closes the connection to an address book
 
      Returns:
-         Bool -> AddressBook Object: If it successfully establishes a connection AddressBook
+         Bool -> True: If it successfully closes the AddressBook
          Bool -> False: If the AddressBook doesn't exist
      '''
      return
