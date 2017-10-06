@@ -20,7 +20,7 @@ process = 1;
          AddressBook Name
 
      Returns:
-         Bool -> AddressBook Object: If it successfully establishes a connection AddressBook
+         AddressBook Object: If it successfully establishes a connection AddressBook
          Bool -> False: If the AddressBook doesn't exists
      '''
      return
