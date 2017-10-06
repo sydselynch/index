@@ -5,6 +5,12 @@ import sqlite3
 class AddressBook(object):
 
     def __init__(self,n):
+        '''
+        self.name = AddressBook Name
+        self.conn = Connection to Database
+        self.c = Database Executable
+        '''
+
         self.name = n
         self.conn = sqlite3.connect('%s.db' % n)
         self.c = self.conn.cursor()
@@ -12,6 +18,94 @@ class AddressBook(object):
             '''CREATE TABLE IF NOT EXISTS AddressBook (first_name TEXT, last_name TEXT, address TEXT, city TEXT,
                state TEXT, zip_code INT, phone_number INT, email TEXT)''')
         self.conn.commit()
+
+    def CreateDatabase(self):
+        '''
+        Creates a database if it doesn't exist
+
+        Returns:
+            Bool -> True: If it successfully created the new database for the AddressBook
+            Bool -> False: If database already exists
+        '''
+        return
+
+    def AddContact(self, contact):
+        '''
+        Adds contact to a database
+
+        Param:
+            Contact
+
+        Returns:
+            Bool -> True: If it successfully added a new contact in the AddressBook
+            Bool -> False: If it wasn't able to successfully add the contact to the AddressBook
+        '''
+        return
+
+    def DeleteContact(self, contact):
+        '''
+        Deletes contact from a database
+
+        Param:
+            Contact
+
+        Returns:
+            Bool -> True: If it successfully deleted a contact in the AddressBook
+            Bool -> False: If it wasn't able to delete the contact from the AddressBook (ie. doesn't exist)
+        '''
+        return
+
+    def DeleteAddressBook(self):
+        '''
+        Deletes addressbook from database
+
+        Returns:
+            Bool -> True: If it successfully deleted AddressBook
+            Bool -> False: If it wasn't able to delete the AddressBook (ie. doesn't exist)
+        '''
+        return
+
+    def UpdateContact(self, contact):
+        '''
+        Updates contact from AddressBook
+
+        Param:
+            Contact
+
+        Returns:
+            Bool -> True: If it successfully updated a contact in the AddressBook
+            Bool -> False: If it wasn't able to updaye the contact from the AddressBook (ie. doesn't exist)
+        '''
+        return
+
+    def GetAllContacts(self):
+        '''
+        Displays all of the contacts from AddressBook
+        (gets all of the contacts from the database and populates a list of objects from the class Contacts)
+
+        Returns:
+            list of contacts
+        '''
+        return
+
+    def GetAllContacts_ByZipcode(self):
+        '''
+        Displays all of the contacts from AddressBook sorted by zipcode
+        (gets all of the contacts from the database and populates a list of objects from the class Contacts)
+
+        Returns:
+            sorted list of contacts
+        '''
+
+    def GetAllContacts_ByLastName(self):
+        '''
+        Displays all of the contacts from AddressBook sorted by last name
+        (gets all of the contacts from the database and populates a list of objects from the class Contacts)
+
+        Returns:
+            sorted list of contacts
+        '''
+        return
 
     def open(self):
         self.conn = sqlite3.connect("%s.db" % self.n)

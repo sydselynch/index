@@ -10,6 +10,33 @@ booklist = []
 # Control the process 1-> Main menu 2-> entering an address book
 process = 1;
 
+
+ def OpenAddressBook(name):
+     '''
+     Establishes a connection to an address book
+     Loads all of the entries of contacts into a new addressbook object and returns it
+
+     Param:
+         AddressBook Name
+
+     Returns:
+         Bool -> AddressBook Object: If it successfully establishes a connection AddressBook
+         Bool -> False: If the AddressBook doesn't exists
+     '''
+     return
+
+
+ def CloseAddressBook(name):
+     '''
+     Closes the connection to an address book
+
+     Returns:
+         Bool -> AddressBook Object: If it successfully establishes a connection AddressBook
+         Bool -> False: If the AddressBook doesn't exist
+     '''
+     return
+
+
 def update_booklist():
     booklist = []
     files = [f for f in os.listdir('.') if os.path.isfile(f)]
