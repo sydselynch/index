@@ -1,4 +1,5 @@
- from AddressBook import AddressBook
+from AddressBook import AddressBook
+from gui import *
 import os
 
 #  Store the name of the address books currently using
@@ -10,8 +11,12 @@ booklist = []
 # Control the process 1-> Main menu 2-> entering an address book
 process = 1;
 
+root = Tk()
+startScreen = Start(root)
+root.mainloop()
 
- def OpenAddressBook(name):
+
+def OpenAddressBook(name):
      '''
      Establishes a connection to an address book
      Loads all of the entries of contacts into a new addressbook object and returns it
@@ -26,7 +31,7 @@ process = 1;
      return
 
 
- def CloseAddressBook(name):
+def CloseAddressBook(name):
      '''
      Closes the connection to an address book
 
@@ -45,7 +50,7 @@ def update_booklist():
             booklist.append(f[0:-3])
     return booklist
 
-while True:
+while False:
     if process == 1:                     # Welcome menu
         control = input('''
 Welcome to AddressBook!
@@ -54,7 +59,7 @@ Press 1 to add a new address book;
 Press 2 to present all existing address books;
 Press 3 to open an address book;
 Press 4 to delete an address book;
-Press 5 to quit the app. 
+Press 5 to quit the app.
 
 ''')
         if control == "1":  # Add
@@ -90,9 +95,9 @@ Press 5 to quit the app.
             break
     elif process == 2:    # Opening a specific address book
         while True:
-            control = input(''' 
+            control = input('''
 You are currently in the address book %s:
-            
+
 Press 1 to print the address book;
 Press 2 to sort the address book by last name;
 Press 3 to sort the address book by zip code;
@@ -125,7 +130,7 @@ first name, last name, address, city, state, zip code, phone number, email
             elif control == "5": # Update the info
                 print(''' Please enter the information in this order:
 fisrt name, last name, the entry to be updated, the new value of the entry
-                
+
 ''')
                 fn = input("First name: ")
                 ln = input("Last name: ")
@@ -136,7 +141,7 @@ fisrt name, last name, the entry to be updated, the new value of the entry
             elif control == "6": # Delete a person from the address book
                 print(''' Please enter the information in this order:
 first name, last name
-                
+
 ''')
                 fn = input("First name: ")
                 ln = input("Last name: ")
@@ -146,5 +151,3 @@ first name, last name
                 process = 1
                 break
     continue
-
-
