@@ -13,8 +13,7 @@ process = 1;
 
 root = Tk()
 startScreen = Start(root)
-#mainScreen = Window(root, "My Book")
-startScreen.root.mainloop()
+root.mainloop()
 
 
 def OpenAddressBook(name):

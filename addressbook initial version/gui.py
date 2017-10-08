@@ -1,18 +1,11 @@
 from tkinter import *
 from tkinter import ttk
-import tkinter.font as tkFont
 from AddressBook import AddressBook
+import tkinter.font as tkFont
 import os
-#root will be passed in as master
-
-#root = Tk()
-#gui = Window(root)
-#root.mainloop()
 
 
 #populate list with .db files
-books = ["book1", "book2", "book3", "book4", "book5", "book6", "book7", "book8", "book9", "book10", "book11"]
-contactHeader = ["First Name", "Last Name", "Address", "City", "State", "Zip", "Phone Number", "Email"]
 
 def update_booklist():
     booklist = []
@@ -23,11 +16,14 @@ def update_booklist():
     return booklist
 
 
-class Start(Frame):
+class Start():
     def __init__(self, root):
-        #Frame.__init__(self, root)
         self.bookList = update_booklist()
         self.root = root
+        self.addressBookList = None
+        self.file = None
+        self.prompt = None
+        self.entry = None
         root.title("Address Book")
         root.minsize(width=450, height=250)
         root.maxsize(width=450, height=250)
@@ -38,11 +34,11 @@ class Start(Frame):
 
         #Initialize buttons
         #TODO add functions to buttons
-        newButton = Button(self.root, text="New", width=20, command=self.openMainWindow)
+        newButton = Button(self.root, text="New", width=20, command=self.newFilePrompt)
         newButton.grid(row=0, column=0, padx=25, pady=(30,10))
-        openButton = Button(self.root, text="Open", width=20)
+        openButton = Button(self.root, text="Open", width=20, command=self.openFile)
         openButton.grid(row=1, column=0, padx=25, pady=10)
-        deleteButton = Button(self.root, text="Delete", width=20)
+        deleteButton = Button(self.root, text="Delete", width=20, command=self.deleteFile)
         deleteButton.grid(row=2, column=0, padx=25, pady=10)
 
 
@@ -51,36 +47,54 @@ class Start(Frame):
         addressBookListLabel = Label(self.root, text="Address Books")
         addressBookListLabel.grid(row=0, column=1, padx=45)
         scrollbar = Scrollbar(self.root, orient=VERTICAL)
-        addressBookList = Listbox(self.root, yscrollcommand=scrollbar.set, selectmode=SINGLE)
-        scrollbar.config(command=addressBookList.yview)
+        self.addressBookList = Listbox(self.root, yscrollcommand=scrollbar.set, selectmode=SINGLE)
+        scrollbar.config(command=self.addressBookList.yview)
         scrollbar.grid(column=2, row=1, rowspan=3, sticky="ns")
         for i in self.bookList:
-            addressBookList.insert(END, i)
+            self.addressBookList.insert(END, i)
 
-        addressBookList.grid(row=1, column=1, rowspan=2, sticky="ns")
+        self.addressBookList.grid(row=1, column=1, rowspan=2, sticky="ns")
+
+    def newFilePrompt(self):
+        self.prompt = Toplevel(self.root)
+        fileNameLabel = Label(self.prompt, text="Address Book Name")
+        fileNameLabel.grid(row=0, column=0)
+        self.entry = Entry(self.prompt, bd=5)
+        self.entry.grid(row=0, column=1)
+        createButton = Button(self.prompt, text="Create", command=self.newFile)
+        createButton.grid(row=0, column=2)
 
     def newFile(self):
-        return
+        self.fileName = self.entry.get()
+        self.prompt.destroy()
+        print(self.fileName)
+        self.bookList.append(self.fileName)
+        self.initializeUI()
+
+
     def openFile(self):
-        return
-    def removeFile(self):
-        return
+        fileIndex = self.addressBookList.curselection()
+        print(fileIndex)
+        if fileIndex[0] != NONE:
+            self.root.destroy()
+            mainScreen = Window(self.bookList[fileIndex[0]])
 
-
-    def openMainWindow(self):
-        mainScreen = Window("test")
-        self.root.destroy()
+    def deleteFile(self):
+        return
 
 
 class Window:
     def __init__(self, bookName):
         self.root = Tk()
         self.bookName = bookName
+        self.addressBook = AddressBook(self.bookName)
         self.tree = None
+        self.contactHeader = ["First Name", "Last Name", "Address", "City", "State", "Zip", "Phone Number", "Email"]
 
         self.root.title(str(self.bookName))
         self.root.geometry("800x350")
         self.initializeUI()
+        self.root.mainloop()
 
     def initializeUI(self):
         menu = Menu(self.root)
@@ -91,14 +105,13 @@ class Window:
         fileMenu.add_command(label="Quit", command=self.root.quit)
         menu.add_cascade(label="File", menu=fileMenu)
 
-
         editMenu = Menu(menu, tearoff=0)
         menu.add_cascade(label="Edit", menu=editMenu)
 
-        # tree view
-        self.tree = ttk.Treeview(self.root, columns=contactHeader, show="headings")
+        # Treeview
+        self.tree = ttk.Treeview(self.root, columns=self.contactHeader, show="headings")
 
-        for column in contactHeader:
+        for column in self.contactHeader:
             self.tree.heading(column, text=str(column))
             self.tree.column(column, width=90)
         vertScroll = ttk.Scrollbar(orient="vertical", command=self.tree.yview)
@@ -117,14 +130,4 @@ class Window:
         deleteButton.grid(column=2, row=2, pady=25)
 
 
-
-
-
-
         self.root.config(menu=menu)
-
-
-
-
-
-    #def contactWindow(self):
