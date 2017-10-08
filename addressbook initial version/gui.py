@@ -52,11 +52,11 @@ class Start(Frame):
         scrollbar = Scrollbar(self.root, orient=VERTICAL)
         addressBookList = Listbox(self.root, yscrollcommand=scrollbar.set, selectmode=SINGLE)
         scrollbar.config(command=addressBookList.yview)
-        scrollbar.grid(column=2, row=1, rowspan=3, sticky=NS)
+        scrollbar.grid(column=2, row=1, rowspan=3, sticky="ns")
         for i in books:
             addressBookList.insert(END, i)
 
-        addressBookList.grid(row=1, column=1, rowspan=3)
+        addressBookList.grid(row=1, column=1, rowspan=2, sticky="ns")
 
 class Window:
     def __init__(self, root, bookName):
@@ -65,7 +65,7 @@ class Window:
         self.tree = None
         #maybe make title name of address book opened
         root.title("Address Book")
-        self.root.geometry("800x600")
+        self.root.geometry("800x350")
         self.initializeUI()
 
     def initializeUI(self):
@@ -86,14 +86,21 @@ class Window:
 
         for column in contactHeader:
             self.tree.heading(column, text=str(column))
-            self.tree.column(column, width=tkFont.Font().measure(column.title()))
+            self.tree.column(column, width=90)
         vertScroll = ttk.Scrollbar(orient="vertical", command=self.tree.yview)
         horScroll = ttk.Scrollbar(orient="horizontal", command=self.tree.xview)
         self.tree.configure(yscrollcommand=vertScroll.set, xscrollcommand=horScroll.set)
-        self.tree.grid(column=0, row=0, sticky="nsew")
-        vertScroll.grid(column=1, row=0, sticky="ns")
-        horScroll.grid(column=0, row=1, sticky="ew")
+        self.tree.grid(column=0, row=0, columnspan=3, sticky="nsew", pady=(15,0), padx=(35,0))
+        vertScroll.grid(column=3, row=0, columnspan=3, sticky="ns", pady=(15,0))
+        horScroll.grid(column=0, row=1, columnspan=3, sticky="ew", padx=(35,0))
 
+        #buttons
+        newButton = Button(self.root, text="New Contact", width=20)
+        newButton.grid(column=0, row=2, pady=25)
+        editButton = Button(self.root, text="Edit", width=20)
+        editButton.grid(column=1, row=2, pady=25)
+        deleteButton = Button(self.root, text="Delete", width=20)
+        deleteButton.grid(column=2, row=2, pady=25)
 
 
 
