@@ -12,9 +12,9 @@ booklist = []
 process = 1;
 
 root = Tk()
-#startScreen = Start(root)
-mainScreen = Window(root, "My Book")
-root.mainloop()
+startScreen = Start(root)
+#mainScreen = Window(root, "My Book")
+startScreen.root.mainloop()
 
 
 def OpenAddressBook(name):

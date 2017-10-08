@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 import tkinter.font as tkFont
 from AddressBook import AddressBook
-
+import os
 #root will be passed in as master
 
 #root = Tk()
@@ -13,23 +13,24 @@ from AddressBook import AddressBook
 #populate list with .db files
 books = ["book1", "book2", "book3", "book4", "book5", "book6", "book7", "book8", "book9", "book10", "book11"]
 contactHeader = ["First Name", "Last Name", "Address", "City", "State", "Zip", "Phone Number", "Email"]
+
+def update_booklist():
+    booklist = []
+    files = [f for f in os.listdir('.') if os.path.isfile(f)]
+    for f in files:
+        if f.endswith(".db"):
+            booklist.append(f[0:-3])
+    return booklist
+
+
 class Start(Frame):
     def __init__(self, root):
-        Frame.__init__(self, root)
+        #Frame.__init__(self, root)
+        self.bookList = update_booklist()
         self.root = root
         root.title("Address Book")
         root.minsize(width=450, height=250)
         root.maxsize(width=450, height=250)
-
-
-        # self.newButton = Button(root, text="New")
-        # self.newButton.pack()
-        #
-        # self.openButton = Button(root, text="Open")
-        # self.openButton.pack()
-        #
-        # self.deleteButton = Button(root, text="Delete")
-        # self.deleteButton.pack()
 
         self.initializeUI()
 
@@ -37,7 +38,7 @@ class Start(Frame):
 
         #Initialize buttons
         #TODO add functions to buttons
-        newButton = Button(self.root, text="New", width=20)
+        newButton = Button(self.root, text="New", width=20, command=self.openMainWindow)
         newButton.grid(row=0, column=0, padx=25, pady=(30,10))
         openButton = Button(self.root, text="Open", width=20)
         openButton.grid(row=1, column=0, padx=25, pady=10)
@@ -53,18 +54,31 @@ class Start(Frame):
         addressBookList = Listbox(self.root, yscrollcommand=scrollbar.set, selectmode=SINGLE)
         scrollbar.config(command=addressBookList.yview)
         scrollbar.grid(column=2, row=1, rowspan=3, sticky="ns")
-        for i in books:
+        for i in self.bookList:
             addressBookList.insert(END, i)
 
         addressBookList.grid(row=1, column=1, rowspan=2, sticky="ns")
 
+    def newFile(self):
+        return
+    def openFile(self):
+        return
+    def removeFile(self):
+        return
+
+
+    def openMainWindow(self):
+        mainScreen = Window("test")
+        self.root.destroy()
+
+
 class Window:
-    def __init__(self, root, bookName):
-        self.root = root
+    def __init__(self, bookName):
+        self.root = Tk()
         self.bookName = bookName
         self.tree = None
-        #maybe make title name of address book opened
-        root.title("Address Book")
+
+        self.root.title(str(self.bookName))
         self.root.geometry("800x350")
         self.initializeUI()
 
