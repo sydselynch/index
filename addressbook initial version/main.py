@@ -12,7 +12,8 @@ booklist = []
 process = 1;
 
 root = Tk()
-startScreen = Start(root)
+#startScreen = Start(root)
+mainScreen = Window(root, "My Book")
 root.mainloop()
 
 
