@@ -1,18 +1,19 @@
 
 import sqlite3
+import os
 
 
 class AddressBook(object):
 
-    def __init__(self,n):
+    def __init__(self, name):
         '''
         self.name = AddressBook Name
         self.conn = Connection to Database
         self.c = Database Executable
         '''
 
-        self.name = n
-        self.conn = sqlite3.connect('%s.db' % n)
+        self.name = name
+        self.conn = sqlite3.connect('%s.db' % name)
         self.c = self.conn.cursor()
         self.c.execute(
             '''CREATE TABLE IF NOT EXISTS AddressBook (first_name TEXT, last_name TEXT, address TEXT, city TEXT,
@@ -63,7 +64,8 @@ class AddressBook(object):
             Bool -> True: If it successfully deleted AddressBook
             Bool -> False: If it wasn't able to delete the AddressBook (ie. doesn't exist)
         '''
-        return
+        os.remove("%s.db" % self.name)
+        return True
 
     def UpdateContact(self, contact):
         '''
