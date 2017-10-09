@@ -58,11 +58,11 @@ class AddressBook(object):
 
     def DeleteAddressBook(self):
         '''
-        Deletes AddressBook from database
+        Deletes AddressBook from database if it exists.
 
         Returns:
             Bool -> True: If it successfully deleted AddressBook
-            Bool -> False: If it wasn't able to delete the AddressBook (ie. doesn't exist)
+            Bool -> False: If it wasn't able to delete the AddressBook (ie. doesn't exist in database)
         '''
         os.remove("%s.db" % self.name)
         return True
