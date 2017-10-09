@@ -1,5 +1,7 @@
 from AddressBook import AddressBook
-from gui import *
+from tkinter import *
+import StartScreen
+import Window
 import os
 
 #  Store the name of the address books currently using
@@ -12,7 +14,7 @@ booklist = []
 process = 1;
 
 root = Tk()
-startScreen = Start(root)
+startScreen = StartScreen.Start(root)
 root.mainloop()
 
 
