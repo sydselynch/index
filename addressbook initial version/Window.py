@@ -5,10 +5,16 @@ import os
 
 class Window:
     def __init__(self, bookName):
+        '''
+        Main user interface of an opened address book. Initializes Tkinter instance.
+        args:
+        bookName - The name of an address book. Expected to be a .db file, but one will be created if
+                   it doesn't already exist
+        returns: none
+        '''
         self.root = Tk()
         self.bookName = bookName
         self.addressBook = AddressBook(self.bookName)
-        print("affrim")
         self.tree = None
         self.contactHeader = ["First Name", "Last Name", "Address", "City", "State", "Zip", "Phone Number", "Email"]
 
@@ -20,6 +26,12 @@ class Window:
         self.root.mainloop()
 
     def initializeUI(self):
+        '''
+        Initializes all Tkinter widgets of the main screen of an address book
+        args: None
+        returns: None
+        '''
+        # Menu dropdown items
         menu = Menu(self.root)
         fileMenu = Menu(menu, tearoff=0)
         fileMenu.add_command(label="New",)
@@ -31,7 +43,7 @@ class Window:
         editMenu = Menu(menu, tearoff=0)
         menu.add_cascade(label="Edit", menu=editMenu)
 
-        # Treeview
+        # Treeview, main widget
         self.tree = ttk.Treeview(self.root, columns=self.contactHeader, show="headings")
 
         for column in self.contactHeader:
@@ -39,10 +51,8 @@ class Window:
             self.tree.column(column, width=90)
 
         # Implement by Jim
-
         for row in self.addressBook.GetAllContacts():
             self.tree.insert('', 'end', values=(row))
-
 
         vertScroll = ttk.Scrollbar(orient="vertical", command=self.tree.yview)
         horScroll = ttk.Scrollbar(orient="horizontal", command=self.tree.xview)
@@ -51,13 +61,12 @@ class Window:
         vertScroll.grid(column=3, row=0, columnspan=3, sticky="ns", pady=(15,0))
         horScroll.grid(column=0, row=1, columnspan=3, sticky="ew", padx=(35,0))
 
-        #buttons
+        # Button widgets
         newButton = Button(self.root, text="New Contact", width=20)
         newButton.grid(column=0, row=2, pady=25)
         editButton = Button(self.root, text="Edit", width=20)
         editButton.grid(column=1, row=2, pady=25)
         deleteButton = Button(self.root, text="Delete", width=20)
         deleteButton.grid(column=2, row=2, pady=25)
-
 
         self.root.config(menu=menu)

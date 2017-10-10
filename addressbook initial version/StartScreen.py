@@ -6,6 +6,11 @@ from AddressBookEntries import AddressBookEntries
 
 class Start():
     def __init__(self, root):
+        '''
+        Main user interface of start screen when application is opened
+        args: root - Tkinter instance
+        returns: None
+        '''
         self.bookList = AddressBookEntries.GetAllAddressBookEntries()
         self.root = root
         self.addressBookList = None
@@ -19,7 +24,11 @@ class Start():
         self.initializeUI()
 
     def initializeUI(self):
-
+        '''
+        Initializes all Tkinter widgets necessary for start screen
+        args: None
+        returns: None
+        '''
         #Initialize buttons
         newButton = Button(self.root, text="New", width=20, command=self.newFilePrompt)
         newButton.grid(row=0, column=0, padx=25, pady=(30,10))

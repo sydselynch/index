@@ -1,6 +1,4 @@
 import Contact
-
-import Contact
 import sqlite3
 import os
 
