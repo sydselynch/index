@@ -1,23 +1,21 @@
+import Contact
 
+import Contact
 import sqlite3
+import os
 
 
 class AddressBook(object):
 
-    def __init__(self,n):
+    def __init__(self, name):
         '''
         self.name = AddressBook Name
         self.conn = Connection to Database
         self.c = Database Executable
         '''
 
-        self.name = n
-        self.conn = sqlite3.connect('%s.db' % n)
-        self.c = self.conn.cursor()
-        self.c.execute(
-            '''CREATE TABLE IF NOT EXISTS AddressBook (first_name TEXT, last_name TEXT, address TEXT, city TEXT,
-               state TEXT, zip_code INT, phone_number INT, email TEXT)''')
-        self.conn.commit()
+        self.name = name
+        self.CreateDatabase()
 
     def CreateDatabase(self):
         '''
@@ -27,9 +25,19 @@ class AddressBook(object):
             Bool -> True: If it successfully created the new database for the AddressBook
             Bool -> False: If database already exists
         '''
-        return
+        files = [f for f in os.listdir('.') if os.path.isfile(f)]
+        if ("%s.db" % self.name) in files:   # Determine if it exists
+            self.conn = sqlite3.connect('%s.db' % self.name)
+            self.c = self.conn.cursor()
+            self.c.execute(
+                '''CREATE TABLE IF NOT EXISTS AddressBook (first_name TEXT, last_name TEXT, address TEXT, city TEXT,
+                   state TEXT, zip_code INT, phone_number INT, email TEXT)''')
+            self.conn.commit()
+            return True
+        else:
+            return False
 
-    def AddContact(self, contact):
+    def AddContact(self, Contact):
         '''
         Adds contact to a database
 
@@ -40,7 +48,16 @@ class AddressBook(object):
             Bool -> True: If it successfully added a new contact in the AddressBook
             Bool -> False: If it wasn't able to successfully add the contact to the AddressBook
         '''
-        return
+        try:
+            sql = ''' INSERT INTO AddressBook (first_name, last_name, address, city, state, zip_code, phone_number, email )
+                              VALUES (?, ?, ?, ?, ?, ?, ?, ?)'''
+            self.c.execute(sql, (Contact.firstName, Contact.lastName, Contact.address, Contact.city, Contact.state,
+                                 Contact.zipcode, Contact.phoneNumber, Contact.email))
+            self.conn.commit()
+            return True
+        except:
+            return False
+
 
     def DeleteContact(self, contact):
         '''
@@ -53,17 +70,28 @@ class AddressBook(object):
             Bool -> True: If it successfully deleted a contact in the AddressBook
             Bool -> False: If it wasn't able to delete the contact from the AddressBook (ie. doesn't exist)
         '''
-        return
+        try:
+            sql = ''' DELETE FROM AddressBook WHERE first_name = (?) AND last_name = (?) '''
+            self.c.execute(sql, (contact.FirstName, contact.LastName))
+            self.conn.commit()
+            return True
+        except:
+            return False
 
     def DeleteAddressBook(self):
         '''
-        Deletes AddressBook from database
+        Deletes AddressBook from database if it exists.
 
         Returns:
             Bool -> True: If it successfully deleted AddressBook
-            Bool -> False: If it wasn't able to delete the AddressBook (ie. doesn't exist)
+            Bool -> False: If it wasn't able to delete the AddressBook (ie. doesn't exist in database)
         '''
-        return
+        files = [f for f in os.listdir('.') if os.path.isfile(f)]
+        if ("%s.db" % self.name) in files:
+            os.remove("%s.db" % self.name)
+            return True
+        else:
+            return False
 
     def UpdateContact(self, contact):
         '''
@@ -86,7 +114,8 @@ class AddressBook(object):
         Returns:
             list of contacts
         '''
-        return
+        self.c.execute('SELECT * FROM AddressBook')
+        return self.c.fetchall()
 
     def GetAllContacts_ByZipcode(self):
         '''
@@ -96,7 +125,8 @@ class AddressBook(object):
         Returns:
             sorted list of contacts
         '''
-        return
+        self.c.execute('SELECT * FROM AddressBook ORDER BY zip_code ASC')
+        return self.c.fetchall()
 
     def GetAllContacts_ByLastName(self):
         '''
@@ -106,7 +136,8 @@ class AddressBook(object):
         Returns:
             sorted list of contacts
         '''
-        return
+        self.c.execute('SELECT * FROM AddressBook ORDER BY last_name')
+        return self.c.fetchall()
 
     def open(self):
         self.conn = sqlite3.connect("%s.db" % self.n)

@@ -3,6 +3,7 @@ from tkinter import *
 import StartScreen
 import Window
 import os
+import sys
 
 #  Store the name of the address books currently using
 currentbook = ''
@@ -13,44 +14,14 @@ booklist = []
 # Control the process 1-> Main menu 2-> entering an address book
 process = 1;
 
-root = Tk()
-startScreen = StartScreen.Start(root)
-root.mainloop()
+def main():
+    root = Tk()
+    startScreen = StartScreen.Start(root)
+    root.mainloop()
 
-
-def OpenAddressBook(name):
-     '''
-     Establishes a connection to an address book
-     Loads all of the entries of contacts into a new addressbook object and returns it
-
-     Param:
-         AddressBook Name
-
-     Returns:
-         AddressBook Object: If it successfully establishes a connection AddressBook
-         Bool -> False: If the AddressBook doesn't exists
-     '''
-     return
-
-
-def CloseAddressBook(name):
-     '''
-     Closes the connection to an address book
-
-     Returns:
-         Bool -> True: If it successfully closes the AddressBook
-         Bool -> False: If the AddressBook doesn't exist
-     '''
-     return
-
-
-def update_booklist():
-    booklist = []
-    files = [f for f in os.listdir('.') if os.path.isfile(f)]
-    for f in files:
-        if f.endswith(".db"):
-            booklist.append(f[0:-3])
-    return booklist
+if __name__ == "__main__":
+    main()
+    # TODO: Check if there is another argument passed (python3 main.py test), if so it should run tests
 
 while False:
     if process == 1:                     # Welcome menu

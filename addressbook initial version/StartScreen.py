@@ -2,19 +2,11 @@ from tkinter import *
 from tkinter import ttk
 from Window import Window
 from AddressBook import AddressBook
-import os
-
-def update_booklist():
-    booklist = []
-    files = [f for f in os.listdir('.') if os.path.isfile(f)]
-    for f in files:
-        if f.endswith(".db"):
-            booklist.append(f[0:-3])
-    return booklist
+from AddressBookEntries import AddressBookEntries
 
 class Start():
     def __init__(self, root):
-        self.bookList = update_booklist()
+        self.bookList = AddressBookEntries.GetAllAddressBookEntries()
         self.root = root
         self.addressBookList = None
         self.file = None
@@ -44,7 +36,7 @@ class Start():
         scrollbar.config(command=self.addressBookList.yview)
         scrollbar.grid(column=2, row=1, rowspan=2, sticky="NS")
         for i in self.bookList:
-            self.addressBookList.insert(END, i)
+            self.addressBookList.insert(END, i.name)
 
         self.addressBookList.grid(row=1, column=1, rowspan=2, sticky="NS")
 
@@ -62,8 +54,7 @@ class Start():
         self.prompt.destroy()
         print(self.fileName)
         if (self.fileName not in self.bookList):
-            self.bookList.append(self.fileName)
-            AddressBook(self.fileName)
+            self.bookList.append(AddressBook(self.fileName))
         else:
             #display error
             pass
@@ -74,11 +65,15 @@ class Start():
         print(fileIndex)
         if len(fileIndex) != 0:
             self.root.destroy()
-            mainScreen = Window(self.bookList[fileIndex[0]])
+            mainScreen = Window(self.bookList[fileIndex[0]].name)
 
     def deleteFile(self):
         fileIndex = self.addressBookList.curselection()
         if len(fileIndex) != 0:
-            os.remove("%s.db" % self.bookList[fileIndex[0]])
-            self.bookList = update_booklist()
+            address = self.bookList[fileIndex[0]]
+            address.DeleteAddressBook()
+            self.bookList = AddressBookEntries.GetAllAddressBookEntries()
             self.initializeUI()
+        else:
+            # TODO: Maybe disable the delete button when there are no entries to be deleted or nothing is clicked
+            pass

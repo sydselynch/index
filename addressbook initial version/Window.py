@@ -8,6 +8,7 @@ class Window:
         self.root = Tk()
         self.bookName = bookName
         self.addressBook = AddressBook(self.bookName)
+        print("affrim")
         self.tree = None
         self.contactHeader = ["First Name", "Last Name", "Address", "City", "State", "Zip", "Phone Number", "Email"]
 
@@ -36,6 +37,13 @@ class Window:
         for column in self.contactHeader:
             self.tree.heading(column, text=str(column))
             self.tree.column(column, width=90)
+
+        # Implement by Jim
+
+        for row in self.addressBook.GetAllContacts():
+            self.tree.insert('', 'end', values=(row))
+
+
         vertScroll = ttk.Scrollbar(orient="vertical", command=self.tree.yview)
         horScroll = ttk.Scrollbar(orient="horizontal", command=self.tree.xview)
         self.tree.configure(yscrollcommand=vertScroll.set, xscrollcommand=horScroll.set)
