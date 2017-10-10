@@ -3,6 +3,7 @@ from tkinter import *
 import StartScreen
 import Window
 import os
+import sys
 
 #  Store the name of the address books currently using
 currentbook = ''
@@ -21,7 +22,10 @@ def main():
 if __name__ == "__main__":
     main()
     # TODO: Check if there is another argument passed (python3 main.py test), if so it should run tests
-    
+    if len(sys.argv) > 1:
+        if sys.argv[1] == 'test':
+            print('true')
+
 while False:
     if process == 1:                     # Welcome menu
         control = input('''

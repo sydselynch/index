@@ -86,8 +86,12 @@ class AddressBook(object):
             Bool -> True: If it successfully deleted AddressBook
             Bool -> False: If it wasn't able to delete the AddressBook (ie. doesn't exist in database)
         '''
-        os.remove("%s.db" % self.name)
-        return True
+        files = [f for f in os.listdir('.') if os.path.isfile(f)]
+        if ("%s.db" % self.name) in files:
+            os.remove("%s.db" % self.name)
+            return True
+        else:
+            return False
 
     def UpdateContact(self, contact):
         '''
