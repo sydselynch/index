@@ -88,6 +88,7 @@ class AddressBook(object):
         '''
         files = [f for f in os.listdir('.') if os.path.isfile(f)]
         if ("%s.db" % self.name) in files:
+            self.conn.close()
             os.remove("%s.db" % self.name)
             return True
         else:
@@ -182,10 +183,3 @@ class AddressBook(object):
 
     def print_name(self):
         print(self.name)
-
-
-
-
-
-
-

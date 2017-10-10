@@ -24,9 +24,11 @@ class Start():
         newButton = Button(self.root, text="New", width=20, command=self.newFilePrompt)
         newButton.grid(row=0, column=0, padx=25, pady=(30,10))
         openButton = Button(self.root, text="Open", width=20, command=self.openFile)
-        openButton.grid(row=1, column=0, padx=25, pady=10)
+        openButton.grid(row=1, column=0, padx=25, pady=0)
         deleteButton = Button(self.root, text="Delete", width=20, command=self.deleteFile)
-        deleteButton.grid(row=2, column=0, padx=25, pady=10)
+        deleteButton.grid(row=2, column=0, padx=25, pady=0)
+        quitButton = Button(self.root, text="Quit", width=20, command=self.root.destroy)
+        quitButton.grid(row=3, column=0)
 
         #List of files
         addressBookListLabel = Label(self.root, text="Address Books")
@@ -34,11 +36,11 @@ class Start():
         scrollbar = Scrollbar(self.root, orient=VERTICAL)
         self.addressBookList = Listbox(self.root, yscrollcommand=scrollbar.set, selectmode=SINGLE, width=35)
         scrollbar.config(command=self.addressBookList.yview)
-        scrollbar.grid(column=2, row=1, rowspan=2, sticky="NS")
+        scrollbar.grid(column=2, row=1, rowspan=3, sticky="NS")
         for i in self.bookList:
             self.addressBookList.insert(END, i.name)
 
-        self.addressBookList.grid(row=1, column=1, rowspan=2, sticky="NS")
+        self.addressBookList.grid(row=1, column=1, rowspan=3, sticky="NS")
 
     def newFilePrompt(self):
         self.prompt = Toplevel(self.root)
