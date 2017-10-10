@@ -13,6 +13,8 @@ class Window:
 
         self.root.title(str(self.bookName))
         self.root.geometry("800x350")
+        self.root.minsize(width=800, height=350)
+        self.root.maxsize(width=800, height=350)
         self.initializeUI()
         self.root.mainloop()
 
