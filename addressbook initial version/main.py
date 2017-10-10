@@ -3,7 +3,6 @@ from tkinter import *
 import StartScreen
 import Window
 import os
-import sys
 
 #  Store the name of the address books currently using
 currentbook = ''
@@ -14,14 +13,9 @@ booklist = []
 # Control the process 1-> Main menu 2-> entering an address book
 process = 1;
 
-def main():
-    root = Tk()
-    startScreen = StartScreen.Start(root)
-    root.mainloop()
-
-if __name__ == "__main__":
-    main()
-    # TODO: Check if there is another argument passed (python3 main.py test), if so it should run tests
+root = Tk()
+startScreen = StartScreen.Start(root)
+root.mainloop()
 
 while False:
     if process == 1:                     # Welcome menu

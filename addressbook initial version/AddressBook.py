@@ -1,4 +1,6 @@
 import Contact
+
+import Contact
 import sqlite3
 import os
 
@@ -16,6 +18,7 @@ class AddressBook(object):
         self.CreateDatabase()
 
     def CreateDatabase(self):
+
         '''
         Creates a database if it doesn't exist
 
@@ -23,6 +26,7 @@ class AddressBook(object):
             Bool -> True: If it successfully created the new database for the AddressBook
             Bool -> False: If database already exists
         '''
+
         files = [f for f in os.listdir('.') if os.path.isfile(f)]
         if ("%s.db" % self.name) in files:   # Determine if it exists
             self.conn = sqlite3.connect('%s.db' % self.name)
@@ -77,20 +81,16 @@ class AddressBook(object):
             return False
 
     def DeleteAddressBook(self):
+
         '''
-        Deletes AddressBook from database if it exists.
+        Deletes AddressBook from database
 
         Returns:
             Bool -> True: If it successfully deleted AddressBook
-            Bool -> False: If it wasn't able to delete the AddressBook (ie. doesn't exist in database)
+            Bool -> False: If it wasn't able to delete the AddressBook (ie. doesn't exist)
         '''
-        files = [f for f in os.listdir('.') if os.path.isfile(f)]
-        if ("%s.db" % self.name) in files:
-            self.conn.close()
-            os.remove("%s.db" % self.name)
-            return True
-        else:
-            return False
+        os.remove("%s.db" % self.name)
+        return True
 
     def UpdateContact(self, contact):
         '''
@@ -106,6 +106,7 @@ class AddressBook(object):
         return
 
     def GetAllContacts(self):
+
         '''
         Displays all of the contacts from AddressBook
         (gets all of the contacts from the database and populates a list of objects from the class Contacts)
@@ -181,3 +182,10 @@ class AddressBook(object):
 
     def print_name(self):
         print(self.name)
+
+
+
+
+
+
+

@@ -1,3 +1,5 @@
+import sqlite3
+
 from AddressBook import AddressBook
 from tkinter import *
 import StartScreen
@@ -18,7 +20,13 @@ class AddressBookEntries(object):
              AddressBook Object: If it successfully establishes a connection AddressBook
              Bool -> False: If the AddressBook doesn't exists
          '''
-         return
+         files = [f for f in os.listdir('.') if os.path.isfile(f)]
+         if ("%s.db" % name) in files:   # Determine if it exists
+             conn = sqlite3.connect("%s.db" % name)
+             # c = conn.cursor()
+             return conn
+         else:
+             return False
 
     @staticmethod
     def CloseAddressBook(name):
@@ -29,16 +37,23 @@ class AddressBookEntries(object):
              Bool -> True: If it successfully closes the AddressBook
              Bool -> False: If the AddressBook doesn't exist
          '''
-         return
+         try:
+             conn = sqlite3.connect("%s.db" % name)
+             conn.close()
+             return True
+         except:
+             return False
 
     @staticmethod
     def GetAllAddressBookEntries():
+
         '''
         Closes the connection to an address book
 
         Returns:
             BookList -> List of AddressBook Entries
         '''
+
         booklist = []
         files = [f for f in os.listdir('.') if os.path.isfile(f)]
         for f in files:
