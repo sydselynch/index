@@ -6,6 +6,11 @@ from AddressBookEntries import AddressBookEntries
 
 class Start():
     def __init__(self, root):
+        '''
+        Main user interface of start screen when application is opened
+        args: root - Tkinter instance
+        returns: None
+        '''
         self.bookList = AddressBookEntries.GetAllAddressBookEntries()
         self.root = root
         self.addressBookList = None
@@ -19,7 +24,11 @@ class Start():
         self.initializeUI()
 
     def initializeUI(self):
-
+        '''
+        Initializes all Tkinter widgets necessary for start screen
+        args: None
+        returns: None
+        '''
         #Initialize buttons
         newButton = Button(self.root, text="New", width=20, command=self.newFilePrompt)
         newButton.grid(row=0, column=0, padx=25, pady=(30,10))
@@ -27,6 +36,8 @@ class Start():
         openButton.grid(row=1, column=0, padx=25, pady=10)
         deleteButton = Button(self.root, text="Delete", width=20, command=self.deleteFile)
         deleteButton.grid(row=2, column=0, padx=25, pady=10)
+        quitButton = Button(self.root, text="Quit", width=20, command=self.root.destroy)
+        quitButton.grid(row=3, column=0)
 
         #List of files
         addressBookListLabel = Label(self.root, text="Address Books")
@@ -34,11 +45,11 @@ class Start():
         scrollbar = Scrollbar(self.root, orient=VERTICAL)
         self.addressBookList = Listbox(self.root, yscrollcommand=scrollbar.set, selectmode=SINGLE, width=35)
         scrollbar.config(command=self.addressBookList.yview)
-        scrollbar.grid(column=2, row=1, rowspan=2, sticky="NS")
+        scrollbar.grid(column=2, row=1, rowspan=3, sticky="NS")
         for i in self.bookList:
             self.addressBookList.insert(END, i.name)
 
-        self.addressBookList.grid(row=1, column=1, rowspan=2, sticky="NS")
+        self.addressBookList.grid(row=1, column=1, rowspan=3, sticky="NS")
 
     def newFilePrompt(self):
         self.prompt = Toplevel(self.root)

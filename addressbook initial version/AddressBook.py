@@ -89,6 +89,7 @@ class AddressBook(object):
             Bool -> True: If it successfully deleted AddressBook
             Bool -> False: If it wasn't able to delete the AddressBook (ie. doesn't exist)
         '''
+        self.conn.close()
         os.remove("%s.db" % self.name)
         return True
 
@@ -182,10 +183,3 @@ class AddressBook(object):
 
     def print_name(self):
         print(self.name)
-
-
-
-
-
-
-

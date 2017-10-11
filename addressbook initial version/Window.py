@@ -5,11 +5,19 @@ import os
 
 class Window:
     def __init__(self, bookName):
+        '''
+        Main user interface of an opened address book. Initializes Tkinter instance.
+        args:
+        bookName - The name of an address book. Expected to be a .db file, but one will be created if
+                   it doesn't already exist
+        returns: none
+        '''
         self.root = Tk()
         self.bookName = bookName
         self.addressBook = AddressBook(self.bookName)
         print("affrim")
         self.tree = None
+        self.prompt = None
         self.contactHeader = ["First Name", "Last Name", "Address", "City", "State", "Zip", "Phone Number", "Email"]
 
         self.root.title(str(self.bookName))
@@ -18,6 +26,12 @@ class Window:
         self.root.mainloop()
 
     def initializeUI(self):
+        '''
+        Initializes all Tkinter widgets of the main screen of an address book
+        args: None
+        returns: None
+        '''
+        # Dropdown menu items
         menu = Menu(self.root)
         fileMenu = Menu(menu, tearoff=0)
         fileMenu.add_command(label="New",)
@@ -29,7 +43,7 @@ class Window:
         editMenu = Menu(menu, tearoff=0)
         menu.add_cascade(label="Edit", menu=editMenu)
 
-        # Treeview
+        # Treeview, main widget
         self.tree = ttk.Treeview(self.root, columns=self.contactHeader, show="headings")
 
         for column in self.contactHeader:
@@ -49,8 +63,8 @@ class Window:
         vertScroll.grid(column=3, row=0, columnspan=3, sticky="ns", pady=(15,0))
         horScroll.grid(column=0, row=1, columnspan=3, sticky="ew", padx=(35,0))
 
-        #buttons
-        newButton = Button(self.root, text="New Contact", width=20, command = self.newPrompt)
+        # Button widgets
+        newButton = Button(self.root, text="New Contact", width=20, command=self.newPrompt)
         newButton.grid(column=0, row=2, pady=25)
         editButton = Button(self.root, text="Edit", width=20)
         editButton.grid(column=1, row=2, pady=25)
