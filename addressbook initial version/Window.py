@@ -1,7 +1,9 @@
 from tkinter import *
 from tkinter import ttk
 from AddressBook import AddressBook
+from Contact import Contact
 import os
+
 
 class Window:
     def __init__(self, bookName):
@@ -23,6 +25,7 @@ class Window:
         self.root.title(str(self.bookName))
         self.root.geometry("800x350")
         self.initializeUI()
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing) # Event when closing the window
         self.root.mainloop()
 
     def initializeUI(self):
@@ -64,11 +67,11 @@ class Window:
         horScroll.grid(column=0, row=1, columnspan=3, sticky="ew", padx=(35,0))
 
         # Button widgets
-        newButton = Button(self.root, text="New Contact", width=20, command=self.newPrompt)
+        newButton = Button(self.root, text="New Contact", width=20, command = self.newPrompt)
         newButton.grid(column=0, row=2, pady=25)
         editButton = Button(self.root, text="Edit", width=20)
         editButton.grid(column=1, row=2, pady=25)
-        deleteButton = Button(self.root, text="Delete", width=20)
+        deleteButton = Button(self.root, text="Delete", width=20 , command = self.DeleteContact)
         deleteButton.grid(column=2, row=2, pady=25)
 
         self.root.config(menu=menu)
@@ -110,6 +113,29 @@ class Window:
         self.EmailEntry = Entry(self.prompt, bd=5)
         self.EmailEntry.grid(row=7, column=1, padx=5, pady=5)
 
-
-        createButton = Button(self.prompt, text="Confirm")
+        createButton = Button(self.prompt, text="Confirm", command=self.AddContact)
         createButton.grid(row=0, column=2, padx=3, pady=3)
+
+    def AddContact(self):
+
+        contact = Contact(self.FirstNameEntry.get(), self.LastNameEntry.get(), self.AddressEntry.get(),
+                          self.CityEntry.get(), self.StateEntry.get(), self.ZipEntry.get(), self.PhoneEntry.get(),
+                          self.EmailEntry.get())
+        self.addressBook.AddContact(contact)
+        self.prompt.destroy()
+        self.initializeUI()
+
+    def DeleteContact(self):
+        curItem = self.tree.focus()
+        if curItem != '':   # validate one entry has been selected
+            contact = Contact(self.tree.item(curItem)['values'][0], self.tree.item(curItem)['values'][1],
+                              self.tree.item(curItem)['values'][2], self.tree.item(curItem)['values'][3],
+                              self.tree.item(curItem)['values'][4], self.tree.item(curItem)['values'][5],
+                              self.tree.item(curItem)['values'][6], self.tree.item(curItem)['values'][7])
+            self.addressBook.DeleteContact(contact)
+            self.initializeUI()
+
+    def on_closing(self):
+        self.addressBook.close()
+        self.root.destroy()
+

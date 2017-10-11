@@ -27,17 +27,24 @@ class AddressBook(object):
             Bool -> False: If database already exists
         '''
 
-        files = [f for f in os.listdir('.') if os.path.isfile(f)]
+        '''files = [f for f in os.listdir('.') if os.path.isfile(f)]
         if ("%s.db" % self.name) in files:   # Determine if it exists
             self.conn = sqlite3.connect('%s.db' % self.name)
             self.c = self.conn.cursor()
             self.c.execute(
-                '''CREATE TABLE IF NOT EXISTS AddressBook (first_name TEXT, last_name TEXT, address TEXT, city TEXT,
-                   state TEXT, zip_code INT, phone_number INT, email TEXT)''')
+                ''''''CREATE TABLE IF NOT EXISTS AddressBook (first_name TEXT, last_name TEXT, address TEXT, city TEXT,
+                   state TEXT, zip_code INT, phone_number INT, email TEXT)'''''')
             self.conn.commit()
             return True
         else:
-            return False
+            return False'''
+
+        self.conn = sqlite3.connect('%s.db' % self.name)
+        self.c = self.conn.cursor()
+        self.c.execute(
+            '''CREATE TABLE IF NOT EXISTS AddressBook (first_name TEXT, last_name TEXT, address TEXT, city TEXT,
+               state TEXT, zip_code INT, phone_number INT, email TEXT)''')
+        self.conn.commit()
 
     def AddContact(self, Contact):
         '''
@@ -53,8 +60,9 @@ class AddressBook(object):
         try:
             sql = ''' INSERT INTO AddressBook (first_name, last_name, address, city, state, zip_code, phone_number, email )
                               VALUES (?, ?, ?, ?, ?, ?, ?, ?)'''
-            self.c.execute(sql, (Contact.firstName, Contact.lastName, Contact.address, Contact.city, Contact.state,
-                                 Contact.zipcode, Contact.phoneNumber, Contact.email))
+            self.c.execute(sql, (Contact.GetFirstName(), Contact.GetLastName(), Contact.GetAddress(), Contact.GetCity(),
+                                 Contact.GetState(), Contact.GetZipcode(), Contact.GetPhoneNumber(),
+                                 Contact.GetEmail()))
             self.conn.commit()
             return True
         except:
