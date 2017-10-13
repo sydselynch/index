@@ -59,8 +59,8 @@ class Window:
             self.tree.insert('', 'end', values=(row))
 
 
-        vertScroll = ttk.Scrollbar(orient="vertical", command=self.tree.yview)
-        horScroll = ttk.Scrollbar(orient="horizontal", command=self.tree.xview)
+        vertScroll = ttk.Scrollbar(self.root, orient="vertical", command=self.tree.yview)
+        horScroll = ttk.Scrollbar(self.root, orient="horizontal", command=self.tree.xview)
         self.tree.configure(yscrollcommand=vertScroll.set, xscrollcommand=horScroll.set)
         self.tree.grid(column=0, row=0, columnspan=3, sticky="nsew", pady=(15,0), padx=(35,0))
         vertScroll.grid(column=3, row=0, columnspan=3, sticky="ns", pady=(15,0))
@@ -204,4 +204,3 @@ class Window:
     def on_closing(self):
         self.addressBook.close()
         self.root.destroy()
-

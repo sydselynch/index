@@ -18,8 +18,8 @@ class Start():
         self.prompt = None
         self.entry = None
         root.title("Address Book")
-        root.minsize(width=450, height=250)
-        root.maxsize(width=450, height=250)
+        root.minsize(width=550, height=250)
+        root.maxsize(width=550, height=250)
 
         self.initializeUI()
 
@@ -75,7 +75,7 @@ class Start():
         fileIndex = self.addressBookList.curselection()
         print(fileIndex)
         if len(fileIndex) != 0:
-            self.root.destroy() # It would raise problem after closing mainScreen.
+            #self.root.destroy() # It would raise problem after closing mainScreen.
             mainScreen = Window(self.bookList[fileIndex[0]].name)
 
     def deleteFile(self):
