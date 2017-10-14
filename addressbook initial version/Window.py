@@ -39,7 +39,7 @@ class Window:
         # Dropdown menu items
         menu = Menu(self.root)
         fileMenu = Menu(menu, tearoff=0)
-        fileMenu.add_command(label="New",)
+        fileMenu.add_command(label="New", comman=self.newFilePrompt)
         fileMenu.add_command(label="Open", command=self.openFile)
         fileMenu.add_command(label="Save")
         fileMenu.add_command(label="Save As")
@@ -205,6 +205,25 @@ class Window:
         self.addressBook.UpdateContact(contact, self.FirstLabel["text"], self.LastLabel["text"])
         self.prompt.destroy()
         self.initializeUI()
+
+    def newFilePrompt(self):
+        self.prompt = Toplevel(self.root)
+        fileNameLabel = Label(self.prompt, text="Address Book Name")
+        fileNameLabel.grid(row=0, column=0, pady=5, padx=5)
+        self.entry = Entry(self.prompt, bd=5)
+        self.entry.grid(row=0, column=1, padx=5, pady=5)
+        createButton = Button(self.prompt, text="Create", command=self.newFile)
+        createButton.grid(row=0, column=2, padx=3, pady=3)
+
+    def newFile(self):
+        self.fileName = self.entry.get()
+        self.prompt.destroy()
+        if (self.fileName not in openBooks):
+            openBooks.append(self.fileName)
+            Window(self.fileName)
+        else:
+            #display error
+            pass
 
     def openFile(self):
         self.root.filename = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("DB files","*.db"),("all files","*.*")))
