@@ -42,7 +42,7 @@ class Window:
         fileMenu.add_command(label="New", comman=self.newFilePrompt)
         fileMenu.add_command(label="Open", command=self.openFile)
         fileMenu.add_command(label="Save")
-        fileMenu.add_command(label="Save As")
+        fileMenu.add_command(label="Save As", command=self.saveFile)
 
         fileMenu.add_separator()
         fileMenu.add_command(label="Close", command=self.on_closing)
@@ -55,7 +55,7 @@ class Window:
         self.tree = ttk.Treeview(self.root, columns=self.contactHeader, show="headings")
 
         for column in self.contactHeader:
-            self.tree.heading(column, text=str(column))
+            self.tree.heading(column, text=str(column), command=lambda c=column: self.sortBy(c))
             self.tree.column(column, width=90)
 
         # Implemented by Jim
@@ -231,6 +231,19 @@ class Window:
         if self.root.filename != "":
             openBooks.append(self.root.filename)
             Window(self.root.filename)
+
+    def saveFile(self):
+        self.root.filename = filedialog.asksaveasfilename(initialdir = "/",title = "Select file",filetypes = (("DB files","*.db"),("all files","*.*")))
+
+    def sortBy(self, column):
+        if column == "Last Name":
+            self.tree.delete(*self.tree.get_children())
+            for row in self.addressBook.GetAllContacts_ByLastName():
+                self.tree.insert('', 'end', values=(row))
+        elif column == "Zip":
+            self.tree.delete(*self.tree.get_children())
+            for row in self.addressBook.GetAllContacts_ByZipcode():
+                self.tree.insert('', 'end', values=(row))
 
     def on_closing(self):
         openBooks.remove(self.bookName)
