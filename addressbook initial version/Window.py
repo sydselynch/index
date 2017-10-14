@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter import filedialog
 from AddressBook import *
 from Contact import Contact
 from StartScreen import *
@@ -19,7 +20,6 @@ class Window:
         self.root = Tk()
         self.bookName = bookName
         self.addressBook = AddressBook(self.bookName)
-        print("affrim")
         self.tree = None
         self.prompt = None
         self.contactHeader = ["First Name", "Last Name", "Address", "City", "State", "Zip", "Phone Number", "Email"]
@@ -40,9 +40,12 @@ class Window:
         menu = Menu(self.root)
         fileMenu = Menu(menu, tearoff=0)
         fileMenu.add_command(label="New",)
+        fileMenu.add_command(label="Open", command=self.openFile)
+        fileMenu.add_command(label="Save")
+        fileMenu.add_command(label="Save As")
 
         fileMenu.add_separator()
-        fileMenu.add_command(label="Quit", command=self.root.quit)
+        fileMenu.add_command(label="Close", command=self.on_closing)
         menu.add_cascade(label="File", menu=fileMenu)
 
         editMenu = Menu(menu, tearoff=0)
@@ -202,6 +205,13 @@ class Window:
         self.addressBook.UpdateContact(contact, self.FirstLabel["text"], self.LastLabel["text"])
         self.prompt.destroy()
         self.initializeUI()
+
+    def openFile(self):
+        self.root.filename = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("DB files","*.db"),("all files","*.*")))
+        self.root.filename = self.root.filename.split(".")[0]
+        if self.root.filename != "":
+            openBooks.append(self.root.filename)
+            Window(self.root.filename)
 
     def on_closing(self):
         openBooks.remove(self.bookName)
