@@ -1,9 +1,11 @@
 from tkinter import *
 from tkinter import ttk
-from AddressBook import AddressBook
+from AddressBook import *
 from Contact import Contact
+from StartScreen import *
 import os
 
+openBooks = []
 
 class Window:
     def __init__(self, bookName):
@@ -202,5 +204,6 @@ class Window:
         self.initializeUI()
 
     def on_closing(self):
+        openBooks.remove(self.bookName)
         self.addressBook.close()
         self.root.destroy()

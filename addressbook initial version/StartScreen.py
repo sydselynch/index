@@ -1,8 +1,8 @@
 from tkinter import *
 from tkinter import ttk
-from Window import Window
 from AddressBook import AddressBook
 from AddressBookEntries import AddressBookEntries
+from Window import *
 
 class Start():
     def __init__(self, root):
@@ -73,9 +73,8 @@ class Start():
 
     def openFile(self):
         fileIndex = self.addressBookList.curselection()
-        print(fileIndex)
-        if len(fileIndex) != 0:
-            #self.root.destroy() # It would raise problem after closing mainScreen.
+        if len(fileIndex) != 0 and self.bookList[fileIndex[0]].name not in openBooks:
+            openBooks.append(self.bookList[fileIndex[0]].name)
             mainScreen = Window(self.bookList[fileIndex[0]].name)
 
     def deleteFile(self):
