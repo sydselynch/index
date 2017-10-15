@@ -34,7 +34,7 @@ class Start():
         newButton.grid(row=0, column=0, padx=25, pady=(30,10))
         openButton = Button(self.root, text="Open", width=20, command=self.openFile)
         openButton.grid(row=1, column=0, padx=25, pady=10)
-        deleteButton = Button(self.root, text="Delete", width=20, command=self.deleteFile)
+        deleteButton = Button(self.root, text="Delete", width=20, command=self.deletePrompt)
         deleteButton.grid(row=2, column=0, padx=25, pady=10)
         quitButton = Button(self.root, text="Quit", width=20, command=self.root.destroy)
         quitButton.grid(row=3, column=0)
@@ -50,6 +50,8 @@ class Start():
             self.addressBookList.insert(END, i.name)
 
         self.addressBookList.grid(row=1, column=1, rowspan=3, sticky="NS")
+        self.addressBookList.columnconfigure(1, weight=1)
+
 
     def newFilePrompt(self):
         self.prompt = Toplevel(self.root)
@@ -62,14 +64,22 @@ class Start():
 
     def newFile(self):
         self.fileName = self.entry.get()
-        self.prompt.destroy()
-        print(self.fileName)
-        if (self.fileName not in self.bookList):
+        if self.fileName not in self.bookList and self.fileName != "":
             self.bookList.append(AddressBook(self.fileName))
+            self.prompt.destroy()
         else:
             #display error
-            pass
+            self.invalidNamePrompt()
         self.initializeUI()
+
+    def invalidNamePrompt(self):
+        self.prompt = Toplevel(self.root)
+        self.prompt.minsize(width=225, height=75)
+        self.prompt.maxsize(width=225, height=75)
+        errorLabel = Label(self.prompt, text="Please enter a valid filename")
+        button = Button(self.prompt, text="OK", command=self.prompt.destroy)
+        errorLabel.pack()
+        button.pack()
 
     def openFile(self):
         fileIndex = self.addressBookList.curselection()
@@ -78,12 +88,25 @@ class Start():
             mainScreen = Window(self.bookList[fileIndex[0]].name)
 
     def deleteFile(self):
-        fileIndex = self.addressBookList.curselection()
-        if len(fileIndex) != 0:
-            address = self.bookList[fileIndex[0]]
+        self.prompt.destroy()
+        if len(self.selection) != 0:
+            address = self.bookList[self.selection[0]]
             address.DeleteAddressBook()
             self.bookList = AddressBookEntries.GetAllAddressBookEntries()
+        self.initializeUI()
+        self.selection = None
+
+    def deletePrompt(self):
+        self.selection = self.addressBookList.curselection()
+        if (len(self.selection) > 0):
+            self.prompt = Toplevel(self.root)
+            self.prompt.title(string="Warning")
+            self.prompt.minsize(width=225, height=75)
+            self.prompt.maxsize(width=225, height=75)
+            errorLabel = Label(self.prompt, text="Are you sure?")
+            yesButton = Button(self.prompt, text= "      OK      ", command= self.deleteFile)
+            noButton = Button(self.prompt, text="      Cancel      ", command= self.prompt.destroy)
+            errorLabel.grid(row=0, column=0, columnspan=2, padx=65, pady=5)
+            yesButton.grid(row=1, column=0, padx=(30,5), pady=5)
+            noButton.grid(row=1, column=1, padx=(5,30), pady=5)
             self.initializeUI()
-        else:
-            # TODO: Maybe disable the delete button when there are no entries to be deleted or nothing is clicked
-            pass

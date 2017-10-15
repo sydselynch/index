@@ -22,10 +22,11 @@ class Window:
         self.addressBook = AddressBook(self.bookName)
         self.tree = None
         self.prompt = None
-        self.contactHeader = ["First Name", "Last Name", "Address", "City", "State", "Zip", "Phone Number", "Email"]
+        self.contactHeader = ["ID", "First Name", "Last Name", "Address", "City", "State", "Zip", "Phone Number", "Email"]
 
         self.root.title(str(self.bookName))
-        self.root.geometry("800x350")
+        self.root.minsize(width=900, height=350)
+        self.root.maxsize(width=900, height=350)
         self.initializeUI()
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing) # Event when closing the window
         self.root.mainloop()
