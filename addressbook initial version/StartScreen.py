@@ -68,7 +68,6 @@ class Start():
             self.bookList.append(AddressBook(self.fileName))
             self.prompt.destroy()
         else:
-            #display error
             self.invalidNamePrompt()
         self.initializeUI()
 
@@ -77,7 +76,7 @@ class Start():
         self.prompt.minsize(width=225, height=75)
         self.prompt.maxsize(width=225, height=75)
         errorLabel = Label(self.prompt, text="Please enter a valid filename")
-        button = Button(self.prompt, text="OK", command=self.prompt.destroy)
+        button = Button(self.prompt, text="     OK     ", command=self.prompt.destroy)
         errorLabel.pack()
         button.pack()
 

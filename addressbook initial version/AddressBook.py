@@ -42,7 +42,7 @@ class AddressBook(object):
         self.conn = sqlite3.connect('%s.db' % self.name)
         self.c = self.conn.cursor()
         self.c.execute(
-            '''CREATE TABLE IF NOT EXISTS AddressBook (first_name TEXT, last_name TEXT, address TEXT, city TEXT,
+            '''CREATE TABLE IF NOT EXISTS AddressBook (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, first_name TEXT, last_name TEXT, address TEXT, city TEXT,
                state TEXT, zip_code INT, phone_number INT, email TEXT)''')
         self.conn.commit()
 
@@ -201,6 +201,10 @@ class AddressBook(object):
         self.c.execute('SELECT * FROM AddressBook ORDER BY zip_code ASC')
         for row in self.c.fetchall():
             print(row)
+
+    def searchLN(self, ln):
+        self.c.execute('SELECT * FROM AddressBook WHERE last_name LIKE "%?%"', (ln))
+        return self.c.fetchall()
 
     def print_book(self):
         self.c.execute('SELECT * FROM AddressBook')
