@@ -12,10 +12,20 @@ class AddressBook(object):
         self.name = AddressBook Name
         self.conn = Connection to Database
         self.c = Database Executable
+        self.orderby = Store the order for sorting
         '''
 
         self.name = name
         self.CreateDatabase()
+
+        self.orderbyfirstname = 0
+        self.orderbylastname = 0
+        self.orderbyaddress = 0
+        self.orderbycity = 0
+        self.orderbystate = 0
+        self.orderbyphone = 0
+        self.orderbyzipcode = 0
+        self.orderbyemail = 0
 
     def CreateDatabase(self):
 
@@ -27,17 +37,6 @@ class AddressBook(object):
             Bool -> False: If database already exists
         '''
 
-        '''files = [f for f in os.listdir('.') if os.path.isfile(f)]
-        if ("%s.db" % self.name) in files:   # Determine if it exists
-            self.conn = sqlite3.connect('%s.db' % self.name)
-            self.c = self.conn.cursor()
-            self.c.execute(
-                ''''''CREATE TABLE IF NOT EXISTS AddressBook (first_name TEXT, last_name TEXT, address TEXT, city TEXT,
-                   state TEXT, zip_code INT, phone_number INT, email TEXT)'''''')
-            self.conn.commit()
-            return True
-        else:
-            return False'''
 
         self.conn = sqlite3.connect('%s.db' % self.name)
         self.c = self.conn.cursor()
@@ -152,7 +151,12 @@ class AddressBook(object):
         Returns:
             sorted list of contacts
         '''
-        self.c.execute('SELECT * FROM AddressBook ORDER BY zip_code ASC')
+        if self.orderbyzipcode == 0:
+            self.c.execute('SELECT * FROM AddressBook ORDER BY zip_code ASC')
+            self.orderbyzipcode = 1
+        else:
+            self.c.execute('SELECT * FROM AddressBook ORDER BY zip_code DESC')
+            self.orderbyzipcode = 0
         return self.c.fetchall()
 
     def GetAllContacts_ByLastName(self):
@@ -163,31 +167,69 @@ class AddressBook(object):
         Returns:
             sorted list of contacts
         '''
-        self.c.execute('SELECT * FROM AddressBook ORDER BY last_name')
+        if self.orderbylastname == 0:
+            self.c.execute('SELECT * FROM AddressBook ORDER BY last_name ASC')
+            self.orderbylastname = 1
+        else:
+            self.c.execute('SELECT * FROM AddressBook ORDER BY last_name DESC')
+            self.orderbylastname = 0
+
         return self.c.fetchall()
 
     def sortByFN(self):
-        self.c.execute('SELECT * FROM AddressBook ORDER BY first_name')
+        if self.orderbyfirstname == 0:
+            self.c.execute('SELECT * FROM AddressBook ORDER BY first_name ASC')
+            self.orderbyfirstname = 1
+        else:
+            self.c.execute('SELECT * FROM AddressBook ORDER BY first_name DESC')
+            self.orderbyfirstname = 0
+
         return self.c.fetchall()
 
     def sortByAddress(self):
-        self.c.execute('SELECT * FROM AddressBook ORDER BY address')
+        if self.orderbyaddress == 0:
+            self.c.execute('SELECT * FROM AddressBook ORDER BY address ASC')
+            self.orderbyaddress = 1
+        else:
+            self.c.execute('SELECT * FROM AddressBook ORDER BY address DESC')
+            self.orderbyaddress = 0
         return self.c.fetchall()
 
     def sortByCity(self):
-        self.c.execute('SELECT * FROM AddressBook ORDER BY city')
+        if self.orderbycity == 0:
+            self.c.execute('SELECT * FROM AddressBook ORDER BY city ASC')
+            self.orderbycity = 1
+        else:
+            self.c.execute('SELECT * FROM AddressBook ORDER BY city DESC')
+            self.orderbycity = 0
         return self.c.fetchall()
 
     def sortByState(self):
-        self.c.execute('SELECT * FROM AddressBook ORDER BY state')
+        if self.orderbystate == 0:
+            self.c.execute('SELECT * FROM AddressBook ORDER BY state ASC')
+            self.orderbystate = 1
+        else:
+            self.c.execute('SELECT * FROM AddressBook ORDER BY state DESC')
+            self.orderbystate = 0
+
         return self.c.fetchall()
 
     def sortByPhone(self):
-        self.c.execute('SELECT * FROM AddressBook ORDER BY phone_number')
+        if self.orderbyphone == 0:
+            self.c.execute('SELECT * FROM AddressBook ORDER BY phone_number ASC')
+            self.orderbyphone = 1
+        else:
+            self.c.execute('SELECT * FROM AddressBook ORDER BY phone_number DESC')
+            self.orderbyphone = 0
         return self.c.fetchall()
 
     def sortByEmail(self):
-        self.c.execute('SELECT * FROM AddressBook ORDER BY email')
+        if self.orderbyemail == 0:
+            self.c.execute('SELECT * FROM AddressBook ORDER BY email ASC')
+            self.orderbyemail = 1
+        else:
+            self.c.execute('SELECT * FROM AddressBook ORDER BY email DESC')
+            self.orderbyemail = 0
         return self.c.fetchall()
 
     def open(self):
@@ -197,34 +239,6 @@ class AddressBook(object):
     def close(self):
         self.c.close()
         self.conn.close()
-
-    def add(self, fn, ln, ad, ci, sta, zip, pho, emai):
-        sql = ''' INSERT INTO AddressBook (first_name, last_name, address, city, state, zip_code, phone_number, email )
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?)'''
-        self.c.execute(sql,(fn, ln, ad, ci, sta, zip, pho, emai))
-        self.conn.commit()
-
-    def delete_entry(self, fn, ln):
-        self.c.execute('DELETE FROM AddressBook WHERE first_name = (?) AND last_name = (?)', (fn, ln))
-        self.conn.commit()
-
-    def delete(self):
-        self.c.execute('DROP TABLE AddressBook')
-        self.conn.commit()
-
-    def update(self, fn, ln, entry, value):
-        self.c.execute("UPDATE AddressBook SET %s = (?) WHERE first_name = (?) AND last_name = (?)" % entry, (value, fn, ln))
-        self.conn.commit()
-
-    def sort_by_ln(self):
-        self.c.execute('SELECT * FROM AddressBook ORDER BY last_name')
-        for row in self.c.fetchall():
-            print(row)
-
-    def sort_by_zc(self):
-        self.c.execute('SELECT * FROM AddressBook ORDER BY zip_code ASC')
-        for row in self.c.fetchall():
-            print(row)
 
     def searchLN(self, ln):
         self.c.execute('SELECT * FROM AddressBook WHERE last_name LIKE ?', ("%"+ln+"%",))
