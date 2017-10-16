@@ -54,6 +54,10 @@ class Start():
 
 
     def newFilePrompt(self):
+        '''
+        Prompt that displays when user presses the new button,
+        allows user to enter an address book name
+        '''
         self.prompt = Toplevel(self.root)
         fileNameLabel = Label(self.prompt, text="Address Book Name")
         fileNameLabel.grid(row=0, column=0, pady=5, padx=5)
@@ -63,6 +67,11 @@ class Start():
         createButton.grid(row=0, column=2, padx=3, pady=3)
 
     def newFile(self):
+        '''
+        Creates a new address book and .db file based
+        on given address book name, displays an error
+        if the name is empty or the book already exists
+        '''
         self.fileName = self.entry.get()
         if self.fileName not in self.bookList and self.fileName != "":
             self.bookList.append(AddressBook(self.fileName))
@@ -72,6 +81,10 @@ class Start():
         self.initializeUI()
 
     def invalidNamePrompt(self):
+        '''
+        Prompt that displays error when user
+        provides invalid address book name
+        '''
         self.prompt = Toplevel(self.root)
         self.prompt.minsize(width=225, height=75)
         self.prompt.maxsize(width=225, height=75)
@@ -81,12 +94,21 @@ class Start():
         button.pack()
 
     def openFile(self):
+        '''
+        Opens the address book that the user has
+        selected from the list of address books as
+        long as it is not already open
+        '''
         fileIndex = self.addressBookList.curselection()
         if len(fileIndex) != 0 and self.bookList[fileIndex[0]].name not in openBooks:
             openBooks.append(self.bookList[fileIndex[0]].name)
             mainScreen = Window(self.bookList[fileIndex[0]].name)
 
     def deleteFile(self):
+        '''
+        Deletes an existing address book from the list,
+        will display a warning prior to deletion
+        '''
         self.prompt.destroy()
         if len(self.selection) != 0:
             address = self.bookList[self.selection[0]]
@@ -96,6 +118,10 @@ class Start():
         self.selection = None
 
     def deletePrompt(self):
+        '''
+        Warning prompt that requires confirmation from the
+        user before deleting an address book
+        '''
         self.selection = self.addressBookList.curselection()
         if (len(self.selection) > 0):
             self.prompt = Toplevel(self.root)

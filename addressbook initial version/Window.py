@@ -59,11 +59,8 @@ class Window:
             self.tree.heading(column, text=str(column), command=lambda c=column: self.sortBy(c))
             self.tree.column(column, width=90)
 
-        # Implemented by Jim
-
         for row in self.addressBook.GetAllContacts():
             self.tree.insert('', 'end', values=(row))
-
 
         vertScroll = ttk.Scrollbar(self.root, orient="vertical", command=self.tree.yview)
         horScroll = ttk.Scrollbar(self.root, orient="horizontal", command=self.tree.xview)
@@ -87,6 +84,12 @@ class Window:
         self.root.config(menu=menu)
 
     def newPrompt(self):
+        '''
+        Prompt that will display when creating a new contact,
+        allows user to enter new contact information
+        args: None
+        returns: None
+        '''
         self.prompt = Toplevel(self.root)
 
         FirstNameLabel = Label(self.prompt, text="First Name")
@@ -127,6 +130,12 @@ class Window:
         createButton.grid(row=0, column=2, padx=3, pady=3)
 
     def AddContact(self):
+        '''
+        Adds a contact to the open address book with information
+        provided by the user and refreshes the interface
+        args: None
+        returns: None
+        '''
 
         contact = Contact(self.FirstNameEntry.get(), self.LastNameEntry.get(), self.AddressEntry.get(),
                           self.CityEntry.get(), self.StateEntry.get(), self.ZipEntry.get(), self.PhoneEntry.get(),
@@ -136,6 +145,10 @@ class Window:
         self.initializeUI()
 
     def DeleteContact(self):
+        '''
+        Removes a contact from the address book and refreshes
+        the interface
+        '''
         curItem = self.tree.focus()
         if curItem != '':   # validate one entry has been selected
             contact = Contact(self.tree.item(curItem)['values'][0], self.tree.item(curItem)['values'][1],
@@ -146,6 +159,10 @@ class Window:
             self.initializeUI()
 
     def editPrompt(self):
+        '''
+        Prompt that will display when user presses edit button,
+        allows user to edit an existing contact
+        '''
         curItem = self.tree.focus()
         if curItem != '':  # validate one entry has been selected
             self.prompt = Toplevel(self.root)
@@ -203,6 +220,10 @@ class Window:
             createButton.grid(row=1, column=2, padx=3, pady=3)
 
     def EditContact(self):
+        '''
+        Saves the information inputted by the user when editing
+        a contact, refreshes the interface
+        '''
 
         contact = Contact(self.FirstNameEntry.get(), self.LastNameEntry.get(), self.AddressEntry.get(),
                           self.CityEntry.get(), self.StateEntry.get(), self.ZipEntry.get(), self.PhoneEntry.get(),
@@ -212,6 +233,11 @@ class Window:
         self.initializeUI()
 
     def searchPrompt(self):
+        '''
+        Prompt that displays when user presses the search button,
+        allows user to search for any characters in the selected
+        column
+        '''
         self.prompt = Toplevel(self.root)
         self.variable = StringVar(self.prompt)
         self.variable.set("First Name")
@@ -223,8 +249,10 @@ class Window:
         searchButton.grid(row=0, column=2, padx=5, pady=5)
 
     def search(self):
-        print(self.searchEntry.get())
-        print(self.variable.get())
+        '''
+        Searches the address book for the characters
+        entered by the user in the given column
+        '''
         if self.searchEntry.get() is not None:
             if self.variable.get() == "Last Name":
                 self.tree.delete(*self.tree.get_children())
@@ -266,11 +294,19 @@ class Window:
         self.prompt.destroy()
 
     def defaultView(self):
+        '''
+        Returns the address book display to its default view
+        '''
         self.tree.delete(*self.tree.get_children())
         for row in self.addressBook.GetAllContacts():
             self.tree.insert('', 'end', values=(row))
 
     def newFilePrompt(self):
+        '''
+        Prompt that displays when creating a new address book
+        from an existing address book, allows user to enter
+        address book name
+        '''
         self.prompt = Toplevel(self.root)
         fileNameLabel = Label(self.prompt, text="Address Book Name")
         fileNameLabel.grid(row=0, column=0, pady=5, padx=5)
@@ -280,6 +316,10 @@ class Window:
         createButton.grid(row=0, column=2, padx=3, pady=3)
 
     def newFile(self):
+        '''
+        Creates a new address book with the name
+        provided by the user
+        '''
         self.fileName = self.entry.get()
         self.prompt.destroy()
         if (self.fileName not in openBooks):
@@ -290,6 +330,10 @@ class Window:
             pass
 
     def openFile(self):
+        '''
+        Opens an address book from an existing address book,
+        must be of type .db
+        '''
         self.root.filename = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("DB files","*.db"),("all files","*.*")))
         self.root.filename = self.root.filename.split(".")[0]
         if self.root.filename != "":
@@ -297,9 +341,16 @@ class Window:
             Window(self.root.filename)
 
     def saveFile(self):
+        #not done
         self.root.filename = filedialog.asksaveasfilename(initialdir = "/",title = "Select file",filetypes = (("DB files","*.db"),("all files","*.*")))
 
     def sortBy(self, column):
+        '''
+        Retrieves a list of contacts sorted by values in
+        the selected column
+        args:
+            column - The name of the column to sort by
+        '''
         if column == "Last Name":
             self.tree.delete(*self.tree.get_children())
             for row in self.addressBook.GetAllContacts_ByLastName():
@@ -334,6 +385,11 @@ class Window:
                 self.tree.insert('', 'end', values=(row))
 
     def on_closing(self):
+        '''
+        Called whenever self.root is destroyed, ensures
+        that the address book is removed from the global
+        list openBook
+        '''
         openBooks.remove(self.bookName)
         self.addressBook.close()
         self.root.destroy()
