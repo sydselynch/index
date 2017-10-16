@@ -27,11 +27,11 @@ class Window:
         self.root.title(str(self.bookName))
         self.root.minsize(width=1000, height=350)
         self.root.maxsize(width=1000, height=350)
-        self.initializeUI()
-        self.root.protocol("WM_DELETE_WINDOW", self.on_closing) # Event when closing the window
+        self.InitializeUI()
+        self.root.protocol("WM_DELETE_WINDOW", self.OnClosing) # Event when closing the window
         self.root.mainloop()
 
-    def initializeUI(self):
+    def InitializeUI(self):
         '''
         Initializes all Tkinter widgets of the main screen of an address book
         args: None
@@ -40,13 +40,13 @@ class Window:
         # Dropdown menu items
         menu = Menu(self.root)
         fileMenu = Menu(menu, tearoff=0)
-        fileMenu.add_command(label="New", comman=self.newFilePrompt)
-        fileMenu.add_command(label="Open", command=self.openFile)
+        fileMenu.add_command(label="New", comman=self.NewFilePrompt)
+        fileMenu.add_command(label="Open", command=self.OpenFile)
         fileMenu.add_command(label="Save")
-        fileMenu.add_command(label="Save As", command=self.saveFile)
+        fileMenu.add_command(label="Save As", command=self.SaveFile)
 
         fileMenu.add_separator()
-        fileMenu.add_command(label="Close", command=self.on_closing)
+        fileMenu.add_command(label="Close", command=self.OnClosing)
         menu.add_cascade(label="File", menu=fileMenu)
 
         editMenu = Menu(menu, tearoff=0)
@@ -56,7 +56,7 @@ class Window:
         self.tree = ttk.Treeview(self.root, columns=self.contactHeader, show="headings")
 
         for column in self.contactHeader:
-            self.tree.heading(column, text=str(column), command=lambda c=column: self.sortBy(c))
+            self.tree.heading(column, text=str(column), command=lambda c=column: self.SortBy(c))
             self.tree.column(column, width=90)
 
         for row in self.addressBook.GetAllContacts():
@@ -70,20 +70,20 @@ class Window:
         horScroll.grid(column=0, row=1, columnspan=5, sticky="ew", padx=(35,0))
 
         # Button widgets
-        newButton = Button(self.root, text="New Contact", width=20, command = self.newPrompt)
+        newButton = Button(self.root, text="New Contact", width=20, command = self.NewPrompt)
         newButton.grid(column=0, row=2, pady=25)
-        editButton = Button(self.root, text="Edit", width=20, command = self.editPrompt)
+        editButton = Button(self.root, text="Edit", width=20, command = self.EditPrompt)
         editButton.grid(column=1, row=2, pady=25)
-        deleteButton = Button(self.root, text="Delete", width=20 , command = self.deletePrompt)
+        deleteButton = Button(self.root, text="Delete", width=20, command = self.DeletePrompt)
         deleteButton.grid(column=2, row=2, pady=25)
-        searchButton = Button(self.root, text="Search", width=20, command=self.searchPrompt)
+        searchButton = Button(self.root, text="Search", width=20, command=self.SearchPrompt)
         searchButton.grid(column=3, row=2, pady=25)
-        defaultButton = Button(self.root, text="Default", width=5, command=self.defaultView)
+        defaultButton = Button(self.root, text="Default", width=5, command=self.DefaultView)
         defaultButton.grid(column=4, row=2, pady=25)
 
         self.root.config(menu=menu)
 
-    def newPrompt(self):
+    def NewPrompt(self):
         '''
         Prompt that will display when creating a new contact,
         allows user to enter new contact information
@@ -142,9 +142,9 @@ class Window:
                           self.EmailEntry.get())
         self.addressBook.AddContact(contact)
         self.prompt.destroy()
-        self.initializeUI()
+        self.InitializeUI()
 
-    def deletePrompt(self):
+    def DeletePrompt(self):
         '''
         Warning prompt that requires confirmation from the
         user before deleting an address book
@@ -161,7 +161,7 @@ class Window:
             errorLabel.grid(row=0, column=0, columnspan=2, padx=65, pady=5)
             yesButton.grid(row=1, column=0, padx=(30,5), pady=5)
             noButton.grid(row=1, column=1, padx=(5,30), pady=5)
-            self.initializeUI()
+            self.InitializeUI()
 
     def DeleteContact(self):
         '''
@@ -176,9 +176,9 @@ class Window:
                               self.tree.item(curItem)['values'][4], self.tree.item(curItem)['values'][5],
                               self.tree.item(curItem)['values'][6], self.tree.item(curItem)['values'][7])
             self.addressBook.DeleteContact(contact)
-            self.initializeUI()
+            self.InitializeUI()
 
-    def editPrompt(self):
+    def EditPrompt(self):
         '''
         Prompt that will display when user presses edit button,
         allows user to edit an existing contact
@@ -250,9 +250,9 @@ class Window:
                           self.EmailEntry.get())
         self.addressBook.UpdateContact(contact, self.FirstLabel["text"], self.LastLabel["text"])
         self.prompt.destroy()
-        self.initializeUI()
+        self.InitializeUI()
 
-    def searchPrompt(self):
+    def SearchPrompt(self):
         '''
         Prompt that displays when user presses the search button,
         allows user to search for any characters in the selected
@@ -265,10 +265,10 @@ class Window:
         self.options.grid(row=0, column=0, padx=5, pady=5)
         self.searchEntry = Entry(self.prompt, bd=5)
         self.searchEntry.grid(row=0, column=1, padx=5, pady=5)
-        searchButton = Button(self.prompt, width=10, text="Search", command=self.search)
+        searchButton = Button(self.prompt, width=10, text="Search", command=self.Search)
         searchButton.grid(row=0, column=2, padx=5, pady=5)
 
-    def search(self):
+    def Search(self):
         '''
         Searches the address book for the characters
         entered by the user in the given column
@@ -313,7 +313,7 @@ class Window:
 
         self.prompt.destroy()
 
-    def defaultView(self):
+    def DefaultView(self):
         '''
         Returns the address book display to its default view
         '''
@@ -321,7 +321,7 @@ class Window:
         for row in self.addressBook.GetAllContacts():
             self.tree.insert('', 'end', values=(row))
 
-    def newFilePrompt(self):
+    def NewFilePrompt(self):
         '''
         Prompt that displays when creating a new address book
         from an existing address book, allows user to enter
@@ -332,10 +332,10 @@ class Window:
         fileNameLabel.grid(row=0, column=0, pady=5, padx=5)
         self.entry = Entry(self.prompt, bd=5)
         self.entry.grid(row=0, column=1, padx=5, pady=5)
-        createButton = Button(self.prompt, text="Create", command=self.newFile)
+        createButton = Button(self.prompt, text="Create", command=self.NewFile)
         createButton.grid(row=0, column=2, padx=3, pady=3)
 
-    def newFile(self):
+    def NewFile(self):
         '''
         Creates a new address book with the name
         provided by the user
@@ -349,7 +349,7 @@ class Window:
             #display error
             pass
 
-    def openFile(self):
+    def OpenFile(self):
         '''
         Opens an address book from an existing address book,
         must be of type .db
@@ -360,11 +360,11 @@ class Window:
             openBooks.append(self.root.filename)
             Window(self.root.filename)
 
-    def saveFile(self):
+    def SaveFile(self):
         #not done
         self.root.filename = filedialog.asksaveasfilename(initialdir = "/",title = "Select file",filetypes = (("DB files","*.db"),("all files","*.*")))
 
-    def sortBy(self, column):
+    def SortBy(self, column):
         '''
         Retrieves a list of contacts sorted by values in
         the selected column
@@ -404,7 +404,7 @@ class Window:
             for row in self.addressBook.sortByEmail():
                 self.tree.insert('', 'end', values=(row))
 
-    def on_closing(self):
+    def OnClosing(self):
         '''
         Called whenever self.root is destroyed, ensures
         that the address book is removed from the global

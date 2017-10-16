@@ -21,20 +21,20 @@ class Start():
         root.minsize(width=650, height=250)
         root.maxsize(width=650, height=250)
 
-        self.initializeUI()
+        self.InitializeUI()
 
-    def initializeUI(self):
+    def InitializeUI(self):
         '''
         Initializes all Tkinter widgets necessary for start screen
         args: None
         returns: None
         '''
         #Initialize buttons
-        newButton = Button(self.root, text="New", width=20, command=self.newFilePrompt)
+        newButton = Button(self.root, text="New", width=20, command=self.NewFilePrompt)
         newButton.grid(row=0, column=0, padx=25, pady=(30,10))
-        openButton = Button(self.root, text="Open", width=20, command=self.openFile)
+        openButton = Button(self.root, text="Open", width=20, command=self.OpenFile)
         openButton.grid(row=1, column=0, padx=25, pady=10)
-        deleteButton = Button(self.root, text="Delete", width=20, command=self.deletePrompt)
+        deleteButton = Button(self.root, text="Delete", width=20, command=self.DeletePrompt)
         deleteButton.grid(row=2, column=0, padx=25, pady=10)
         quitButton = Button(self.root, text="Quit", width=20, command=self.root.destroy)
         quitButton.grid(row=3, column=0)
@@ -53,7 +53,7 @@ class Start():
         self.addressBookList.columnconfigure(1, weight=1)
 
 
-    def newFilePrompt(self):
+    def NewFilePrompt(self):
         '''
         Prompt that displays when user presses the new button,
         allows user to enter an address book name
@@ -63,10 +63,10 @@ class Start():
         fileNameLabel.grid(row=0, column=0, pady=5, padx=5)
         self.entry = Entry(self.prompt, bd=5)
         self.entry.grid(row=0, column=1, padx=5, pady=5)
-        createButton = Button(self.prompt, text="Create", command=self.newFile)
+        createButton = Button(self.prompt, text="Create", command=self.NewFile)
         createButton.grid(row=0, column=2, padx=3, pady=3)
 
-    def newFile(self):
+    def NewFile(self):
         '''
         Creates a new address book and .db file based
         on given address book name, displays an error
@@ -77,10 +77,10 @@ class Start():
             self.bookList.append(AddressBook(self.fileName))
             self.prompt.destroy()
         else:
-            self.invalidNamePrompt()
-        self.initializeUI()
+            self.InvalidNamePrompt()
+        self.InitializeUI()
 
-    def invalidNamePrompt(self):
+    def InvalidNamePrompt(self):
         '''
         Prompt that displays error when user
         provides invalid address book name
@@ -93,7 +93,7 @@ class Start():
         errorLabel.pack()
         button.pack()
 
-    def openFile(self):
+    def OpenFile(self):
         '''
         Opens the address book that the user has
         selected from the list of address books as
@@ -104,7 +104,7 @@ class Start():
             openBooks.append(self.bookList[fileIndex[0]].name)
             mainScreen = Window(self.bookList[fileIndex[0]].name)
 
-    def deleteFile(self):
+    def DeleteFile(self):
         '''
         Deletes an existing address book from the list,
         will display a warning prior to deletion
@@ -114,10 +114,10 @@ class Start():
             address = self.bookList[self.selection[0]]
             address.DeleteAddressBook()
             self.bookList = AddressBookEntries.GetAllAddressBookEntries()
-        self.initializeUI()
+        self.InitializeUI()
         self.selection = None
 
-    def deletePrompt(self):
+    def DeletePrompt(self):
         '''
         Warning prompt that requires confirmation from the
         user before deleting an address book
@@ -129,9 +129,9 @@ class Start():
             self.prompt.minsize(width=225, height=75)
             self.prompt.maxsize(width=225, height=75)
             errorLabel = Label(self.prompt, text="Are you sure?")
-            yesButton = Button(self.prompt, text= "      OK      ", command= self.deleteFile)
+            yesButton = Button(self.prompt, text= "      OK      ", command= self.DeleteFile)
             noButton = Button(self.prompt, text="      Cancel      ", command= self.prompt.destroy)
             errorLabel.grid(row=0, column=0, columnspan=2, padx=65, pady=5)
             yesButton.grid(row=1, column=0, padx=(30,5), pady=5)
             noButton.grid(row=1, column=1, padx=(5,30), pady=5)
-            self.initializeUI()
+            self.InitializeUI()
