@@ -68,9 +68,9 @@ class Window:
         vertScroll = ttk.Scrollbar(self.root, orient="vertical", command=self.tree.yview)
         horScroll = ttk.Scrollbar(self.root, orient="horizontal", command=self.tree.xview)
         self.tree.configure(yscrollcommand=vertScroll.set, xscrollcommand=horScroll.set)
-        self.tree.grid(column=0, row=0, columnspan=3, sticky="nsew", pady=(15,0), padx=(35,0))
-        vertScroll.grid(column=3, row=0, columnspan=3, sticky="ns", pady=(15,0))
-        horScroll.grid(column=0, row=1, columnspan=3, sticky="ew", padx=(35,0))
+        self.tree.grid(column=0, row=0, columnspan=4, sticky="nsew", pady=(15,0), padx=(35,0))
+        vertScroll.grid(column=4, row=0, columnspan=4, sticky="ns", pady=(15,0))
+        horScroll.grid(column=0, row=1, columnspan=4, sticky="ew", padx=(35,0))
 
         # Button widgets
         newButton = Button(self.root, text="New Contact", width=20, command = self.newPrompt)
@@ -79,6 +79,8 @@ class Window:
         editButton.grid(column=1, row=2, pady=25)
         deleteButton = Button(self.root, text="Delete", width=20 , command = self.DeleteContact)
         deleteButton.grid(column=2, row=2, pady=25)
+        searchButton = Button(self.root, text="Search", width=20, command=self.searchPrompt)
+        searchButton.grid(column=3, row=2, pady=25)
 
         self.root.config(menu=menu)
 
@@ -206,6 +208,26 @@ class Window:
         self.addressBook.UpdateContact(contact, self.FirstLabel["text"], self.LastLabel["text"])
         self.prompt.destroy()
         self.initializeUI()
+
+    def searchPrompt(self):
+        self.prompt = Toplevel(self.root)
+        self.variable = StringVar(self.prompt)
+        self.variable.set("First Name")
+        self.options = OptionMenu(self.prompt, self.variable, *self.contactHeader)
+        self.options.grid(row=0, column=0, padx=5, pady=5)
+        self.searchEntry = Entry(self.prompt, bd=5)
+        self.searchEntry.grid(row=0, column=1, padx=5, pady=5)
+        searchButton = Button(self.prompt, width=10, text="Search", command=self.search)
+        searchButton.grid(row=0, column=2, padx=5, pady=5)
+    def search(self):
+        print(self.searchEntry.get())
+        print(self.variable.get())
+        if self.searchEntry.get() is not None and self.variable.get() == "Last Name":
+            self.tree.delete(*self.tree.get_children())
+            for row in self.addressBook.searchLN(self.searchEntry.get()):
+                self.tree.insert('', 'end', values=(row))
+
+        self.prompt.destroy()
 
     def newFilePrompt(self):
         self.prompt = Toplevel(self.root)

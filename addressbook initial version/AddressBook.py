@@ -203,7 +203,7 @@ class AddressBook(object):
             print(row)
 
     def searchLN(self, ln):
-        self.c.execute('SELECT * FROM AddressBook WHERE last_name LIKE "%?%"', (ln))
+        self.c.execute('SELECT * FROM AddressBook WHERE last_name LIKE ?', ("%"+ln+"%",))
         return self.c.fetchall()
 
     def print_book(self):
