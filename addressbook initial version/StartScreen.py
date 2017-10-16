@@ -18,8 +18,8 @@ class Start():
         self.prompt = None
         self.entry = None
         root.title("Address Book")
-        root.minsize(width=550, height=250)
-        root.maxsize(width=550, height=250)
+        root.minsize(width=650, height=250)
+        root.maxsize(width=650, height=250)
 
         self.initializeUI()
 

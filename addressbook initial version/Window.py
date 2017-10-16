@@ -25,8 +25,8 @@ class Window:
         self.contactHeader = ["ID", "First Name", "Last Name", "Address", "City", "State", "Zip", "Phone Number", "Email"]
 
         self.root.title(str(self.bookName))
-        self.root.minsize(width=900, height=350)
-        self.root.maxsize(width=900, height=350)
+        self.root.minsize(width=1000, height=350)
+        self.root.maxsize(width=1000, height=350)
         self.initializeUI()
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing) # Event when closing the window
         self.root.mainloop()
@@ -74,7 +74,7 @@ class Window:
         newButton.grid(column=0, row=2, pady=25)
         editButton = Button(self.root, text="Edit", width=20, command = self.editPrompt)
         editButton.grid(column=1, row=2, pady=25)
-        deleteButton = Button(self.root, text="Delete", width=20 , command = self.DeleteContact)
+        deleteButton = Button(self.root, text="Delete", width=20 , command = self.deletePrompt)
         deleteButton.grid(column=2, row=2, pady=25)
         searchButton = Button(self.root, text="Search", width=20, command=self.searchPrompt)
         searchButton.grid(column=3, row=2, pady=25)
@@ -144,12 +144,32 @@ class Window:
         self.prompt.destroy()
         self.initializeUI()
 
+    def deletePrompt(self):
+        '''
+        Warning prompt that requires confirmation from the
+        user before deleting an address book
+        '''
+        self.selection = self.tree.focus()
+        if self.selection != "":
+            self.prompt = Toplevel(self.root)
+            self.prompt.title(string="Warning")
+            self.prompt.minsize(width=225, height=75)
+            self.prompt.maxsize(width=225, height=75)
+            errorLabel = Label(self.prompt, text="Are you sure?")
+            yesButton = Button(self.prompt, text= "      OK      ", command= self.DeleteContact)
+            noButton = Button(self.prompt, text="      Cancel      ", command= self.prompt.destroy)
+            errorLabel.grid(row=0, column=0, columnspan=2, padx=65, pady=5)
+            yesButton.grid(row=1, column=0, padx=(30,5), pady=5)
+            noButton.grid(row=1, column=1, padx=(5,30), pady=5)
+            self.initializeUI()
+
     def DeleteContact(self):
         '''
         Removes a contact from the address book and refreshes
         the interface
         '''
-        curItem = self.tree.focus()
+        self.prompt.destroy()
+        curItem = self.selection
         if curItem != '':   # validate one entry has been selected
             contact = Contact(self.tree.item(curItem)['values'][0], self.tree.item(curItem)['values'][1],
                               self.tree.item(curItem)['values'][2], self.tree.item(curItem)['values'][3],
