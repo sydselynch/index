@@ -4,6 +4,10 @@ import StartScreen
 import Window
 import os
 
-root = Tk()
-startScreen = StartScreen.Start(root)
-root.mainloop()
+def main():
+    root = Tk()
+    startScreen = StartScreen.Start(root)
+    root.mainloop()
+
+if __name__ == "__main__":
+    main()
