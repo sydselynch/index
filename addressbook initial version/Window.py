@@ -308,6 +308,30 @@ class Window:
             self.tree.delete(*self.tree.get_children())
             for row in self.addressBook.GetAllContacts_ByZipcode():
                 self.tree.insert('', 'end', values=(row))
+        elif column == "First Name":
+            self.tree.delete(*self.tree.get_children())
+            for row in self.addressBook.sortByFN():
+                self.tree.insert('', 'end', values=(row))
+        elif column == "Address":
+            self.tree.delete(*self.tree.get_children())
+            for row in self.addressBook.sortByAddress():
+                self.tree.insert('', 'end', values=(row))
+        elif column == "City":
+            self.tree.delete(*self.tree.get_children())
+            for row in self.addressBook.sortByCity():
+                self.tree.insert('', 'end', values=(row))
+        elif column == "State":
+            self.tree.delete(*self.tree.get_children())
+            for row in self.addressBook.sortByState():
+                self.tree.insert('', 'end', values=(row))
+        elif column == "Phone Number":
+            self.tree.delete(*self.tree.get_children())
+            for row in self.addressBook.sortByPhone():
+                self.tree.insert('', 'end', values=(row))
+        elif column == "Email":
+            self.tree.delete(*self.tree.get_children())
+            for row in self.addressBook.sortByEmail():
+                self.tree.insert('', 'end', values=(row))
 
     def on_closing(self):
         openBooks.remove(self.bookName)

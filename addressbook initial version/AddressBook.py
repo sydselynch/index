@@ -166,6 +166,30 @@ class AddressBook(object):
         self.c.execute('SELECT * FROM AddressBook ORDER BY last_name')
         return self.c.fetchall()
 
+    def sortByFN(self):
+        self.c.execute('SELECT * FROM AddressBook ORDER BY first_name')
+        return self.c.fetchall()
+
+    def sortByAddress(self):
+        self.c.execute('SELECT * FROM AddressBook ORDER BY address')
+        return self.c.fetchall()
+
+    def sortByCity(self):
+        self.c.execute('SELECT * FROM AddressBook ORDER BY city')
+        return self.c.fetchall()
+
+    def sortByState(self):
+        self.c.execute('SELECT * FROM AddressBook ORDER BY state')
+        return self.c.fetchall()
+
+    def sortByPhone(self):
+        self.c.execute('SELECT * FROM AddressBook ORDER BY phone_number')
+        return self.c.fetchall()
+
+    def sortByEmail(self):
+        self.c.execute('SELECT * FROM AddressBook ORDER BY email')
+        return self.c.fetchall()
+
     def open(self):
         self.conn = sqlite3.connect("%s.db" % self.n)
         self.c = self.conn.cursor()
