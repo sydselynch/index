@@ -206,6 +206,34 @@ class AddressBook(object):
         self.c.execute('SELECT * FROM AddressBook WHERE last_name LIKE ?', ("%"+ln+"%",))
         return self.c.fetchall()
 
+    def searchFN(self, fn):
+        self.c.execute('SELECT * FROM AddressBook WHERE first_name LIKE ?', ("%"+fn+"%",))
+        return self.c.fetchall()
+
+    def searchAddress(self, address):
+        self.c.execute('SELECT * FROM AddressBook WHERE address LIKE ?', ("%"+address+"%",))
+        return self.c.fetchall()
+
+    def searchCity(self, city):
+        self.c.execute('SELECT * FROM AddressBook WHERE city LIKE ?', ("%"+city+"%",))
+        return self.c.fetchall()
+
+    def searchState(self, state):
+        self.c.execute('SELECT * FROM AddressBook WHERE state LIKE ?', ("%"+state+"%",))
+        return self.c.fetchall()
+
+    def searchZip(self, zip):
+        self.c.execute('SELECT * FROM AddressBook WHERE zip_code LIKE ?', ("%"+zip+"%",))
+        return self.c.fetchall()
+
+    def searchPhone(self, phone):
+        self.c.execute('SELECT * FROM AddressBook WHERE phone_number LIKE ?', ("%"+phone+"%",))
+        return self.c.fetchall()
+
+    def searchEmail(self, email):
+        self.c.execute('SELECT * FROM AddressBook WHERE email LIKE ?', ("%"+email+"%",))
+        return self.c.fetchall()
+
     def print_book(self):
         self.c.execute('SELECT * FROM AddressBook')
         for row in self.c.fetchall():

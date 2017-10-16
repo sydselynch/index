@@ -68,9 +68,9 @@ class Window:
         vertScroll = ttk.Scrollbar(self.root, orient="vertical", command=self.tree.yview)
         horScroll = ttk.Scrollbar(self.root, orient="horizontal", command=self.tree.xview)
         self.tree.configure(yscrollcommand=vertScroll.set, xscrollcommand=horScroll.set)
-        self.tree.grid(column=0, row=0, columnspan=4, sticky="nsew", pady=(15,0), padx=(35,0))
-        vertScroll.grid(column=4, row=0, columnspan=4, sticky="ns", pady=(15,0))
-        horScroll.grid(column=0, row=1, columnspan=4, sticky="ew", padx=(35,0))
+        self.tree.grid(column=0, row=0, columnspan=5, sticky="nsew", pady=(15,0), padx=(35,0))
+        vertScroll.grid(column=5, row=0, columnspan=5, sticky="ns", pady=(15,0))
+        horScroll.grid(column=0, row=1, columnspan=5, sticky="ew", padx=(35,0))
 
         # Button widgets
         newButton = Button(self.root, text="New Contact", width=20, command = self.newPrompt)
@@ -81,6 +81,8 @@ class Window:
         deleteButton.grid(column=2, row=2, pady=25)
         searchButton = Button(self.root, text="Search", width=20, command=self.searchPrompt)
         searchButton.grid(column=3, row=2, pady=25)
+        defaultButton = Button(self.root, text="Default", width=5, command=self.defaultView)
+        defaultButton.grid(column=4, row=2, pady=25)
 
         self.root.config(menu=menu)
 
@@ -219,15 +221,54 @@ class Window:
         self.searchEntry.grid(row=0, column=1, padx=5, pady=5)
         searchButton = Button(self.prompt, width=10, text="Search", command=self.search)
         searchButton.grid(row=0, column=2, padx=5, pady=5)
+
     def search(self):
         print(self.searchEntry.get())
         print(self.variable.get())
-        if self.searchEntry.get() is not None and self.variable.get() == "Last Name":
-            self.tree.delete(*self.tree.get_children())
-            for row in self.addressBook.searchLN(self.searchEntry.get()):
-                self.tree.insert('', 'end', values=(row))
+        if self.searchEntry.get() is not None:
+            if self.variable.get() == "Last Name":
+                self.tree.delete(*self.tree.get_children())
+                for row in self.addressBook.searchLN(self.searchEntry.get()):
+                    self.tree.insert('', 'end', values=(row))
+            elif self.variable.get() == "First Name":
+                self.tree.delete(*self.tree.get_children())
+                for row in self.addressBook.searchFN(self.searchEntry.get()):
+                    self.tree.insert('', 'end', values=(row))
+            elif self.variable.get() == "Address":
+                self.tree.delete(*self.tree.get_children())
+                for row in self.addressBook.searchAddress(self.searchEntry.get()):
+                    self.tree.insert('', 'end', values=(row))
+            elif self.variable.get() == "City":
+                self.tree.delete(*self.tree.get_children())
+                for row in self.addressBook.searchCity(self.searchEntry.get()):
+                    self.tree.insert('', 'end', values=(row))
+            elif self.variable.get() == "State":
+                self.tree.delete(*self.tree.get_children())
+                for row in self.addressBook.searchState(self.searchEntry.get()):
+                    self.tree.insert('', 'end', values=(row))
+            elif self.variable.get() == "Zip":
+                self.tree.delete(*self.tree.get_children())
+                for row in self.addressBook.searchZip(self.searchEntry.get()):
+                    self.tree.insert('', 'end', values=(row))
+            elif self.variable.get() == "Phone Number":
+                self.tree.delete(*self.tree.get_children())
+                for row in self.addressBook.searchPhone(self.searchEntry.get()):
+                    self.tree.insert('', 'end', values=(row))
+            elif self.variable.get() == "Email":
+                self.tree.delete(*self.tree.get_children())
+                for row in self.addressBook.searchEmail(self.searchEntry.get()):
+                    self.tree.insert('', 'end', values=(row))
+            else:
+                self.tree.delete(*self.tree.get_children())
+                for row in self.addressBook.GetAllContacts():
+                    self.tree.insert('', 'end', values=(row))
 
         self.prompt.destroy()
+
+    def defaultView(self):
+        self.tree.delete(*self.tree.get_children())
+        for row in self.addressBook.GetAllContacts():
+            self.tree.insert('', 'end', values=(row))
 
     def newFilePrompt(self):
         self.prompt = Toplevel(self.root)
