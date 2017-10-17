@@ -21,9 +21,10 @@ print("sort by last name")
 addressb.sort_by_ln()
 
 addressb.close()
-'''
+
 
 
 addressb = AddressBook("cis422")
 addressb.update("Jim", "Li", "state", "OR")
 addressb.print_book()
+'''

@@ -2,8 +2,6 @@ import sqlite3
 
 from AddressBook import AddressBook
 from tkinter import *
-import StartScreen
-import Window
 import os
 
 class AddressBookEntries(object):
