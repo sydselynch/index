@@ -2,6 +2,7 @@ from Contact import Contact
 import unittest
 
 class TestContact(unittest.TestCase):
+    
     def testNewContactAllFields(self):
         contact = Contact('FirstName', 'LastName', 'Address', 'City', 'State', 'Zipcode', 'PhoneNumber', 'Email')
 
