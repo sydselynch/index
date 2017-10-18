@@ -35,7 +35,7 @@ class Start():
         image = PhotoImage(file="Logo.gif")
         label = Label(image=image, height=100, width=210)
         label.image = image
-        label.grid(row=0, column=0)
+        label.grid(row=0, column=0,sticky="NW")
         icon = PhotoImage(file="icon.gif")
         self.root.tk.call('wm','iconphoto',self.root._w,icon)
 
@@ -53,13 +53,13 @@ class Start():
         addressBookListLabel = Label(self.root, text="Available Address Books", font=('TkHeadingFont', 13))
         addressBookListLabel.grid(row=4, column=1)
         scrollbar = Scrollbar(self.root, orient=VERTICAL)
-        self.addressBookList = Listbox(self.root, yscrollcommand=scrollbar.set, selectmode=SINGLE, width=65, height=10, font=('TkHeadingFont'))
+        self.addressBookList = Listbox(self.root, yscrollcommand=scrollbar.set, selectmode=SINGLE, width=55, height=10, font=('TkHeadingFont'))
         scrollbar.config(command=self.addressBookList.yview)
-        scrollbar.grid(column=2, row=0, rowspan=4, sticky="NSE", pady=10, padx=(0,10))
+        scrollbar.grid(column=2, row=0, rowspan=4, sticky="NSE", pady=10, padx=(0,50))
         for i in self.bookList:
             self.addressBookList.insert(END, i.name)
 
-        self.addressBookList.grid(row=0, column=1, rowspan=4, sticky="NSEW", pady=10)
+        self.addressBookList.grid(row=0, column=1, rowspan=4, sticky="NSEW", pady=10, padx=(0,0))
         self.root.columnconfigure(0, weight=1)
         self.root.columnconfigure(1, weight=1)
         self.root.columnconfigure(2, weight=1)
