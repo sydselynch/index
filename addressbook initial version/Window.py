@@ -188,11 +188,8 @@ class Window:
         self.prompt.destroy()
         curItem = self.selection
         if curItem != '':   # validate one entry has been selected
-            contact = Contact(self.tree.item(curItem)['values'][1], self.tree.item(curItem)['values'][2],
-                              self.tree.item(curItem)['values'][3], self.tree.item(curItem)['values'][4],
-                              self.tree.item(curItem)['values'][5], self.tree.item(curItem)['values'][6],
-                              self.tree.item(curItem)['values'][7], self.tree.item(curItem)['values'][8])
-            self.addressBook.DeleteContact(contact)
+
+            self.addressBook.DeleteContact(self.tree.item(curItem)['values'][0])
             self.InitializeUI()
 
     def EditPrompt(self):
@@ -203,13 +200,7 @@ class Window:
         curItem = self.tree.focus()
         if curItem != '':  # validate one entry has been selected
             self.prompt = Toplevel(self.root)
-
-            self.NameLabel = Label(self.prompt, text = "Full Name: ")
-            self.NameLabel.grid(row=0, column=0, pady=5, padx=5)
-            self.FirstLabel = Label(self.prompt, text = self.tree.item(curItem)['values'][0])
-            self.FirstLabel.grid(row=0, column=1, pady=5, padx=5)
-            self.LastLabel = Label(self.prompt, text = self.tree.item(curItem)['values'][1])
-            self.LastLabel.grid(row=0, column=2, pady=5, padx=5)
+            self.ID = self.tree.item(curItem)['values'][0]
 
             FirstNameLabel = Label(self.prompt, text="First Name")
             FirstNameLabel.grid(row=1, column=0, pady=5, padx=5)
@@ -229,28 +220,28 @@ class Window:
             EmailLabel.grid(row=8, column=0, pady=5, padx=5)
 
             self.FirstNameEntry = Entry(self.prompt, bd=5)
-            self.FirstNameEntry.insert(0, self.tree.item(curItem)['values'][0])
+            self.FirstNameEntry.insert(0, self.tree.item(curItem)['values'][1])
             self.FirstNameEntry.grid(row=1, column=1, padx=5, pady=5)
             self.LastNameEntry = Entry(self.prompt, bd=5)
-            self.LastNameEntry.insert(0, self.tree.item(curItem)['values'][1])
+            self.LastNameEntry.insert(0, self.tree.item(curItem)['values'][2])
             self.LastNameEntry.grid(row=2, column=1, padx=5, pady=5)
             self.AddressEntry = Entry(self.prompt, bd=5)
-            self.AddressEntry.insert(0, self.tree.item(curItem)['values'][2])
+            self.AddressEntry.insert(0, self.tree.item(curItem)['values'][3])
             self.AddressEntry.grid(row=3, column=1, padx=5, pady=5)
             self.CityEntry = Entry(self.prompt, bd=5)
-            self.CityEntry.insert(0, self.tree.item(curItem)['values'][3])
+            self.CityEntry.insert(0, self.tree.item(curItem)['values'][4])
             self.CityEntry.grid(row=4, column=1, padx=5, pady=5)
             self.StateEntry = Entry(self.prompt, bd=5)
-            self.StateEntry.insert(0, self.tree.item(curItem)['values'][4])
+            self.StateEntry.insert(0, self.tree.item(curItem)['values'][5])
             self.StateEntry.grid(row=5, column=1, padx=5, pady=5)
             self.ZipEntry = Entry(self.prompt, bd=5)
-            self.ZipEntry.insert(0, self.tree.item(curItem)['values'][5])
+            self.ZipEntry.insert(0, self.tree.item(curItem)['values'][6])
             self.ZipEntry.grid(row=6, column=1, padx=5, pady=5)
             self.PhoneEntry = Entry(self.prompt, bd=5)
-            self.PhoneEntry.insert(0, self.tree.item(curItem)['values'][6])
+            self.PhoneEntry.insert(0, self.tree.item(curItem)['values'][7])
             self.PhoneEntry.grid(row=7, column=1, padx=5, pady=5)
             self.EmailEntry = Entry(self.prompt, bd=5)
-            self.EmailEntry.insert(0, self.tree.item(curItem)['values'][7])
+            self.EmailEntry.insert(0, self.tree.item(curItem)['values'][8])
             self.EmailEntry.grid(row=8, column=1, padx=5, pady=5)
 
             createButton = Button(self.prompt, text="Confirm", command=self.EditContact)
@@ -265,7 +256,7 @@ class Window:
         contact = Contact(self.FirstNameEntry.get(), self.LastNameEntry.get(), self.AddressEntry.get(),
                           self.CityEntry.get(), self.StateEntry.get(), self.ZipEntry.get(), self.PhoneEntry.get(),
                           self.EmailEntry.get())
-        self.addressBook.UpdateContact(contact, self.FirstLabel["text"], self.LastLabel["text"])
+        self.addressBook.UpdateContact(contact, self.ID)
         self.prompt.destroy()
         self.InitializeUI()
 

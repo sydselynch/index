@@ -65,7 +65,7 @@ class AddressBook(object):
         except:
             return False
 
-    def DeleteContact(self, contact):
+    def DeleteContact(self, ID):
         '''
         Deletes contact from a database
 
@@ -77,8 +77,7 @@ class AddressBook(object):
             Bool -> False: If it wasn't able to delete the contact from the AddressBook (ie. doesn't exist)
         '''
         try:
-            sql = ''' DELETE FROM AddressBook WHERE first_name = (?) AND last_name = (?) '''
-            self.c.execute(sql, (contact.FirstName, contact.LastName))
+            self.c.execute("DELETE FROM AddressBook WHERE id = %s"% ID)
             self.conn.commit()
             return True
         except:
@@ -97,7 +96,7 @@ class AddressBook(object):
         os.remove("%s.db" % self.name)
         return True
 
-    def UpdateContact(self, contact, firstname, lastname):
+    def UpdateContact(self, contact, ID):
         '''
         Updates contact from AddressBook
 
@@ -109,22 +108,22 @@ class AddressBook(object):
             The new contact
         '''
 
-        self.c.execute("UPDATE AddressBook SET first_name = (?) WHERE first_name = (?) AND last_name = (?)",
-                       (contact.GetFirstName(), firstname, lastname))
-        self.c.execute("UPDATE AddressBook SET last_name = (?) WHERE first_name = (?) AND last_name = (?)",
-                       (contact.GetLastName(), contact.GetFirstName(), lastname))
-        self.c.execute("UPDATE AddressBook SET address = (?) WHERE first_name = (?) AND last_name = (?)",
-                       (contact.GetAddress(), contact.GetFirstName(), contact.GetLastName()))
-        self.c.execute("UPDATE AddressBook SET city = (?) WHERE first_name = (?) AND last_name = (?)",
-                       (contact.GetCity(), contact.GetFirstName(), contact.GetLastName()))
-        self.c.execute("UPDATE AddressBook SET state = (?) WHERE first_name = (?) AND last_name = (?)",
-                       (contact.GetState(), contact.GetFirstName(), contact.GetLastName()))
-        self.c.execute("UPDATE AddressBook SET zip_code = (?) WHERE first_name = (?) AND last_name = (?)",
-                       (contact.GetZipcode(), contact.GetFirstName(), contact.GetLastName()))
-        self.c.execute("UPDATE AddressBook SET phone_number = (?) WHERE first_name = (?) AND last_name = (?)",
-                       (contact.GetPhoneNumber(), contact.GetFirstName(), contact.GetLastName()))
-        self.c.execute("UPDATE AddressBook SET email = (?) WHERE first_name = (?) AND last_name = (?)",
-                       (contact.GetEmail(), contact.GetFirstName(), contact.GetLastName()))
+        self.c.execute("UPDATE AddressBook SET first_name = (?) WHERE id = (?)",
+                       (contact.GetFirstName(), ID))
+        self.c.execute("UPDATE AddressBook SET last_name = (?) WHERE id = (?)",
+                       (contact.GetLastName(), ID))
+        self.c.execute("UPDATE AddressBook SET address = (?) WHERE id = (?)",
+                       (contact.GetAddress(), ID))
+        self.c.execute("UPDATE AddressBook SET city = (?) WHERE id = (?)",
+                       (contact.GetCity(), ID))
+        self.c.execute("UPDATE AddressBook SET state = (?) WHERE id = (?)",
+                       (contact.GetState(), ID))
+        self.c.execute("UPDATE AddressBook SET zip_code = (?) WHERE id = (?)",
+                       (contact.GetZipcode(), ID))
+        self.c.execute("UPDATE AddressBook SET phone_number = (?) WHERE id = (?)",
+                       (contact.GetPhoneNumber(), ID))
+        self.c.execute("UPDATE AddressBook SET email = (?) WHERE id = (?)",
+                       (contact.GetEmail(), ID))
         self.conn.commit()
         return contact
 
