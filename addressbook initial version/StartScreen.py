@@ -17,6 +17,7 @@ class Start():
         self.file = None
         self.prompt = None
         self.entry = None
+        self.openWindows = {}
         root.title("Address Book")
         root.minsize(width=650, height=250)
         root.maxsize(width=650, height=250)
@@ -36,7 +37,7 @@ class Start():
         openButton.grid(row=1, column=0, padx=25, pady=10)
         deleteButton = Button(self.root, text="Delete", width=20, command=self.DeletePrompt)
         deleteButton.grid(row=2, column=0, padx=25, pady=10)
-        quitButton = Button(self.root, text="Quit", width=20, command=self.root.destroy)
+        quitButton = Button(self.root, text="Quit", width=20, command=self.QuitAllWindows)
         quitButton.grid(row=3, column=0)
 
         #List of files
@@ -51,7 +52,6 @@ class Start():
 
         self.addressBookList.grid(row=1, column=1, rowspan=3, sticky="NS")
         self.addressBookList.columnconfigure(1, weight=1)
-
 
     def NewFilePrompt(self):
         '''
@@ -102,7 +102,28 @@ class Start():
         fileIndex = self.addressBookList.curselection()
         if len(fileIndex) != 0 and self.bookList[fileIndex[0]].name not in openBooks:
             openBooks.append(self.bookList[fileIndex[0]].name)
-            mainScreen = Window(self.bookList[fileIndex[0]].name)
+            Window(self.bookList[fileIndex[0]].name, self)
+
+    def AddWindow(self, window):
+        '''
+        Adds a window to the windows attribute list if a new one is created
+        '''
+        self.openWindows[window.root.title] = window
+
+    def RemoveWindow(self, window):
+        '''
+        Removes a window from the attribute list if the window is closed
+        '''
+        self.openWindows.pop(window.root.title, None)
+
+    def QuitAllWindows(self):
+        '''
+        Quits all of the opened child windows and the root window
+        '''
+        if len(self.openWindows) != 0:
+            for i in self.openWindows:
+                self.openWindows[i].root.destroy()
+        self.root.destroy()
 
     def DeleteFile(self):
         '''

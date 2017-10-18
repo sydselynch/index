@@ -9,7 +9,7 @@ import os
 openBooks = []
 
 class Window:
-    def __init__(self, bookName):
+    def __init__(self, bookName, parent):
         '''
         Main user interface of an opened address book. Initializes Tkinter instance.
         args:
@@ -18,6 +18,7 @@ class Window:
         returns: none
         '''
         self.root = Tk()
+        self.parent = parent
         self.bookName = bookName
         self.addressBook = AddressBook(self.bookName)
         self.tree = None
@@ -82,6 +83,9 @@ class Window:
         defaultButton.grid(column=4, row=2, pady=25)
 
         self.root.config(menu=menu)
+
+        # Add window to parent
+        self.parent.AddWindow(self)
 
     def NewPrompt(self):
         '''
@@ -412,4 +416,6 @@ class Window:
         '''
         openBooks.remove(self.bookName)
         self.addressBook.close()
+        # remove window from parent
+        self.parent.RemoveWindow(self)
         self.root.destroy()
