@@ -108,13 +108,13 @@ class Start():
         '''
         Adds a window to the windows attribute list if a new one is created
         '''
-        self.openWindows[window.root.title] = window
+        self.openWindows[window.bookName] = window
 
     def RemoveWindow(self, window):
         '''
         Removes a window from the attribute list if the window is closed
         '''
-        self.openWindows.pop(window.root.title, None)
+        self.openWindows.pop(window.bookName, None)
 
     def QuitAllWindows(self):
         '''
@@ -133,6 +133,8 @@ class Start():
         self.prompt.destroy()
         if len(self.selection) != 0:
             address = self.bookList[self.selection[0]]
+            # close window if database is deleted
+            self.openWindows[address.name].root.destroy()
             address.DeleteAddressBook()
             self.bookList = AddressBookEntries.GetAllAddressBookEntries()
         self.InitializeUI()
