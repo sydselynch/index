@@ -1,6 +1,5 @@
 from tkinter import *
 from tkinter import ttk
-from PIL import Image, ImageTk
 from AddressBook import AddressBook
 from AddressBookEntries import AddressBookEntries
 from Window import *
@@ -33,11 +32,11 @@ class Start():
         args: None
         returns: None
         '''
-        image = ImageTk.PhotoImage(file="Logo.png")
+        image = PhotoImage(file="Logo.gif")
         label = Label(image=image, height=100, width=210)
         label.image = image
         label.grid(row=0, column=0)
-        icon = ImageTk.PhotoImage(file="icon.png")
+        icon = PhotoImage(file="icon.gif")
         self.root.tk.call('wm','iconphoto',self.root._w,icon)
 
         #Initialize buttons
