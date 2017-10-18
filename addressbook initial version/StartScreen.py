@@ -4,6 +4,8 @@ from AddressBook import AddressBook
 from AddressBookEntries import AddressBookEntries
 from Window import *
 
+windowList = []
+
 class Start():
     def __init__(self, root):
         '''
@@ -18,9 +20,9 @@ class Start():
         self.prompt = None
         self.entry = None
         self.openWindows = {}
-        root.title("Address Book")
-        root.minsize(width=650, height=250)
-        root.maxsize(width=650, height=250)
+        root.title("In[]Dex")
+        root.minsize(width=650, height=270)
+        root.maxsize(width=650, height=270)
 
         self.InitializeUI()
 
@@ -30,28 +32,43 @@ class Start():
         args: None
         returns: None
         '''
+        image = PhotoImage(file="Logo.png")
+        label = Label(image=image, height=100, width=210)
+        label.image = image
+        label.grid(row=0, column=0)
+        icon = PhotoImage(file="icon.png")
+        self.root.tk.call('wm','iconphoto',self.root._w,icon)
+
         #Initialize buttons
         newButton = Button(self.root, text="New", width=20, command=self.NewFilePrompt)
-        newButton.grid(row=0, column=0, padx=25, pady=(30,10))
+        newButton.grid(row=1, column=0, padx=25, pady=(10,0))
         openButton = Button(self.root, text="Open", width=20, command=self.OpenFile)
-        openButton.grid(row=1, column=0, padx=25, pady=10)
+        openButton.grid(row=2, column=0, padx=25, pady=(10,0))
         deleteButton = Button(self.root, text="Delete", width=20, command=self.DeletePrompt)
-        deleteButton.grid(row=2, column=0, padx=25, pady=10)
+        deleteButton.grid(row=3, column=0, padx=25, pady=(10,0))
         quitButton = Button(self.root, text="Quit", width=20, command=self.QuitAllWindows)
-        quitButton.grid(row=3, column=0)
+        quitButton.grid(row=4, column=0, pady=(10,10))
 
         #List of files
-        addressBookListLabel = Label(self.root, text="Address Books")
-        addressBookListLabel.grid(row=0, column=1, padx=10, pady=10)
+        addressBookListLabel = Label(self.root, text="Available Address Books", font=('TkHeadingFont', 13))
+        addressBookListLabel.grid(row=4, column=1)
         scrollbar = Scrollbar(self.root, orient=VERTICAL)
-        self.addressBookList = Listbox(self.root, yscrollcommand=scrollbar.set, selectmode=SINGLE, width=35)
+        self.addressBookList = Listbox(self.root, yscrollcommand=scrollbar.set, selectmode=SINGLE, width=65, height=10, font=('TkHeadingFont'))
         scrollbar.config(command=self.addressBookList.yview)
-        scrollbar.grid(column=2, row=1, rowspan=3, sticky="NS")
+        scrollbar.grid(column=2, row=0, rowspan=4, sticky="NSE", pady=10, padx=(0,10))
         for i in self.bookList:
             self.addressBookList.insert(END, i.name)
 
-        self.addressBookList.grid(row=1, column=1, rowspan=3, sticky="NS")
-        self.addressBookList.columnconfigure(1, weight=1)
+        self.addressBookList.grid(row=0, column=1, rowspan=4, sticky="NSEW", pady=10)
+        self.root.columnconfigure(0, weight=1)
+        self.root.columnconfigure(1, weight=1)
+        self.root.columnconfigure(2, weight=1)
+        self.root.rowconfigure(0, weight=1)
+        self.root.rowconfigure(1, weight=1)
+        self.root.rowconfigure(2, weight=1)
+        self.root.rowconfigure(3, weight=1)
+        self.root.rowconfigure(4, weight=1)
+
 
     def NewFilePrompt(self):
         '''
@@ -158,3 +175,9 @@ class Start():
             yesButton.grid(row=1, column=0, padx=(30,5), pady=5)
             noButton.grid(row=1, column=1, padx=(5,30), pady=5)
             self.InitializeUI()
+
+    def OnClosing(self):
+        # print(windowList)
+        # for window in windowList:
+        #     window.root.destroy()
+        self.root.destroy()
