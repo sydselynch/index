@@ -175,10 +175,10 @@ class Window:
         self.prompt.destroy()
         curItem = self.selection
         if curItem != '':   # validate one entry has been selected
-            contact = Contact(self.tree.item(curItem)['values'][0], self.tree.item(curItem)['values'][1],
-                              self.tree.item(curItem)['values'][2], self.tree.item(curItem)['values'][3],
-                              self.tree.item(curItem)['values'][4], self.tree.item(curItem)['values'][5],
-                              self.tree.item(curItem)['values'][6], self.tree.item(curItem)['values'][7])
+            contact = Contact(self.tree.item(curItem)['values'][1], self.tree.item(curItem)['values'][2],
+                              self.tree.item(curItem)['values'][3], self.tree.item(curItem)['values'][4],
+                              self.tree.item(curItem)['values'][5], self.tree.item(curItem)['values'][6],
+                              self.tree.item(curItem)['values'][7], self.tree.item(curItem)['values'][8])
             self.addressBook.DeleteContact(contact)
             self.InitializeUI()
 
