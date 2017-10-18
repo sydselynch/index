@@ -33,7 +33,7 @@ class Start():
         returns: None
         '''
         image = PhotoImage(file="Logo.gif")
-        label = Label(image=image, height=100, width=210)
+        label = Label(self.root, image=image, height=100, width=210)
         label.image = image
         label.grid(row=0, column=0,sticky="NW")
         icon = PhotoImage(file="icon.gif")

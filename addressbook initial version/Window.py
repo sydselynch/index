@@ -17,7 +17,7 @@ class Window:
                    it doesn't already exist
         returns: none
         '''
-        self.root = Tk()
+        self.root = Toplevel()
         self.parent = parent
         self.bookName = bookName
         self.addressBook = AddressBook(self.bookName)
@@ -38,6 +38,13 @@ class Window:
         args: None
         returns: None
         '''
+        icon = PhotoImage(file="icon.gif")
+        label = Label(self.root, image=icon, height=50, width=50)
+        label.image = icon
+        label.grid(row=2, column=5,sticky="NW")
+        self.root.tk.call('wm','iconphoto',self.root._w,icon)
+
+
         # Dropdown menu items
         menu = Menu(self.root)
         fileMenu = Menu(menu, tearoff=0)
@@ -49,9 +56,6 @@ class Window:
         fileMenu.add_separator()
         fileMenu.add_command(label="Close", command=self.OnClosing)
         menu.add_cascade(label="File", menu=fileMenu)
-
-        editMenu = Menu(menu, tearoff=0)
-        menu.add_cascade(label="Edit", menu=editMenu)
 
         # Treeview, main widget
         self.tree = ttk.Treeview(self.root, columns=self.contactHeader, show="headings")
@@ -67,7 +71,7 @@ class Window:
         horScroll = ttk.Scrollbar(self.root, orient="horizontal", command=self.tree.xview)
         self.tree.configure(yscrollcommand=vertScroll.set, xscrollcommand=horScroll.set)
         self.tree.grid(column=0, row=0, columnspan=5, sticky="nsew", pady=(15,0), padx=(35,0))
-        vertScroll.grid(column=5, row=0, columnspan=5, sticky="ns", pady=(15,0))
+        vertScroll.grid(column=5, row=0, columnspan=5, sticky="ns", pady=(15,0), padx=(0,20))
         horScroll.grid(column=0, row=1, columnspan=5, sticky="ew", padx=(35,0))
 
         # Button widgets
@@ -79,10 +83,19 @@ class Window:
         deleteButton.grid(column=2, row=2, pady=25)
         searchButton = Button(self.root, text="Search", width=20, command=self.SearchPrompt)
         searchButton.grid(column=3, row=2, pady=25)
-        defaultButton = Button(self.root, text="Default", width=5, command=self.DefaultView)
+        defaultButton = Button(self.root, text="Default", width=10, command=self.DefaultView)
         defaultButton.grid(column=4, row=2, pady=25)
 
         self.root.config(menu=menu)
+        self.root.columnconfigure(0, weight=1)
+        self.root.columnconfigure(1, weight=1)
+        self.root.columnconfigure(2, weight=1)
+        self.root.columnconfigure(3, weight=1)
+        self.root.columnconfigure(4, weight=1)
+        self.root.columnconfigure(5, weight=1)
+        self.root.rowconfigure(0, weight=1)
+        self.root.rowconfigure(1, weight=1)
+        self.root.rowconfigure(2, weight=1)
 
         # Add window to parent
         self.parent.AddWindow(self)
