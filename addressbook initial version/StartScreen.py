@@ -36,8 +36,9 @@ class Start():
         label = Label(self.root, image=image, height=100, width=210)
         label.image = image
         label.grid(row=0, column=0,sticky="NW")
-        icon = PhotoImage(file="icon.gif")
-        self.root.tk.call('wm','iconphoto',self.root._w,icon)
+        self.root.iconbitmap('icon.ico')
+        #icon = PhotoImage(file="icon.ico")
+        #self.root.tk.call('wm','iconphoto',self.root._w,icon)
 
         #Initialize buttons
         newButton = Button(self.root, text="New", width=20, command=self.NewFilePrompt)

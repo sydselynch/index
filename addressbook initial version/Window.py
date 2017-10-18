@@ -38,11 +38,14 @@ class Window:
         args: None
         returns: None
         '''
-        icon = PhotoImage(file="icon.gif")
-        label = Label(self.root, image=icon, height=50, width=50)
-        label.image = icon
+        logo = PhotoImage(file="icon.gif")
+        label = Label(self.root, image=logo, height=50, width=50)
+        label.image = logo
         label.grid(row=2, column=5,sticky="NW")
-        self.root.tk.call('wm','iconphoto',self.root._w,icon)
+        #icon = PhotoImage(file="icon.ico")
+        #self.root.tk.call('wm','iconphoto',self.root._w,icon)
+        self.root.iconbitmap('icon.ico')
+
 
 
         # Dropdown menu items
@@ -62,7 +65,11 @@ class Window:
 
         for column in self.contactHeader:
             self.tree.heading(column, text=str(column), command=lambda c=column: self.SortBy(c))
-            self.tree.column(column, width=90)
+            if column == 'ID':
+                self.tree.column(column, width=5)
+            else:
+                self.tree.column(column, width=50)
+
 
         for row in self.addressBook.GetAllContacts():
             self.tree.insert('', 'end', values=(row))
@@ -83,7 +90,7 @@ class Window:
         deleteButton.grid(column=2, row=2, pady=25)
         searchButton = Button(self.root, text="Search", width=20, command=self.SearchPrompt)
         searchButton.grid(column=3, row=2, pady=25)
-        defaultButton = Button(self.root, text="Default", width=10, command=self.DefaultView)
+        defaultButton = Button(self.root, text="Default", width=10, command=self.InitializeUI)
         defaultButton.grid(column=4, row=2, pady=25)
 
         self.root.config(menu=menu)
@@ -329,14 +336,6 @@ class Window:
                     self.tree.insert('', 'end', values=(row))
 
         self.prompt.destroy()
-
-    def DefaultView(self):
-        '''
-        Returns the address book display to its default view
-        '''
-        self.tree.delete(*self.tree.get_children())
-        for row in self.addressBook.GetAllContacts():
-            self.tree.insert('', 'end', values=(row))
 
     def NewFilePrompt(self):
         '''
