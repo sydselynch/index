@@ -353,13 +353,19 @@ class Window:
         Creates a new address book with the name
         provided by the user
         '''
+        books = []
         self.fileName = self.entry.get()
         self.prompt.destroy()
         if (self.fileName not in openBooks and self.fileName != ""):
-            openBooks.append(self.fileName)
-            newBook = Window(self.fileName, self.parent)
-            self.parent.bookList.append(newBook)
-            self.parent.UpdateBookList()
+            for book in self.parent.bookList:
+                books.append(book.name)
+            if self.fileName not in books:
+                openBooks.append(self.fileName)
+                newBook = Window(self.fileName, self.parent)
+                self.parent.bookList.append(newBook)
+                self.parent.UpdateBookList()
+            else:
+                self.InvalidNamePrompt()
         else:
             self.InvalidNamePrompt()
 
