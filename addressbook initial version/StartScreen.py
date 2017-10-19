@@ -38,7 +38,7 @@ class Start():
 
         # Use a different image if the sys platform is a Mac
         if sys.platform == 'darwin':
-            image = PhotoImage(file="Logo.gif")
+            image = PhotoImage(file="LogoMac.gif")
             #self.root.iconbitmap('icon.icns')
         else:
             image = PhotoImage(file="Logo.gif")
