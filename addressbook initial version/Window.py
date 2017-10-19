@@ -355,12 +355,26 @@ class Window:
         '''
         self.fileName = self.entry.get()
         self.prompt.destroy()
-        if (self.fileName not in openBooks):
+        if (self.fileName not in openBooks and self.fileName != ""):
             openBooks.append(self.fileName)
-            Window(self.fileName, self.parent)
+            newBook = Window(self.fileName, self.parent)
+            self.parent.bookList.append(newBook)
+            self.parent.UpdateBookList()
         else:
-            #display error
-            pass
+            self.InvalidNamePrompt()
+
+    def InvalidNamePrompt(self):
+        '''
+        Prompt that displays error when user
+        provides invalid address book name
+        '''
+        self.prompt = Toplevel(self.root)
+        self.prompt.minsize(width=225, height=75)
+        self.prompt.maxsize(width=225, height=75)
+        errorLabel = Label(self.prompt, text="Please enter a valid filename")
+        button = Button(self.prompt, text="     OK     ", command=self.prompt.destroy)
+        errorLabel.pack()
+        button.pack()
 
     def OpenFile(self):
         '''

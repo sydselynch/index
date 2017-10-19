@@ -39,12 +39,13 @@ class Start():
         # Use a different image if the sys platform is a Mac
         if sys.platform == 'darwin':
             image = PhotoImage(file="Logo.gif")
+            #self.root.iconbitmap('icon.icns')
         else:
             image = PhotoImage(file="Logo.gif")
+            self.root.iconbitmap('icon.ico')
         label = Label(self.root, image=image, height=100, width=210)
         label.image = image
         label.grid(row=0, column=0,sticky="NW")
-        self.root.iconbitmap('icon.ico')
         #icon = PhotoImage(file="icon.ico")
         #self.root.tk.call('wm','iconphoto',self.root._w,icon)
 
@@ -90,6 +91,10 @@ class Start():
         self.root.rowconfigure(3, weight=1)
         self.root.rowconfigure(4, weight=1)
 
+    def UpdateBookList(self):
+        self.addressBookList.delete(0, END)
+        for book in self.bookList:
+            self.addressBookList.insert(END, book)
 
     def NewFilePrompt(self):
         '''
