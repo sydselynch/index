@@ -43,19 +43,15 @@ class Window:
         label = Label(self.root, image=logo, height=50, width=50)
         label.image = logo
         label.grid(row=2, column=5,sticky="NW")
-        #icon = PhotoImage(file="icon.ico")
-        #self.root.tk.call('wm','iconphoto',self.root._w,icon)
         self.root.iconbitmap('icon.ico')
-
-
 
         # Dropdown menu items
         menu = Menu(self.root)
         fileMenu = Menu(menu, tearoff=0)
         fileMenu.add_command(label="New", comman=self.NewFilePrompt)
         fileMenu.add_command(label="Open", command=self.OpenFile)
-        fileMenu.add_command(label="Save")
-        fileMenu.add_command(label="Save As", command=self.SaveFile)
+        fileMenu.add_command(label="Save As", command=self.saveAsPrompt)
+        fileMenu.add_command(label="Export", command=self.export)
 
         fileMenu.add_separator()
         fileMenu.add_command(label="Close", command=self.OnClosing)
@@ -70,7 +66,6 @@ class Window:
                 self.tree.column(column, width=5)
             else:
                 self.tree.column(column, width=50)
-
 
         for row in self.addressBook.GetAllContacts():
             self.tree.insert('', 'end', values=(row))
@@ -378,7 +373,7 @@ class Window:
             openBooks.append(self.root.filename)
             Window(self.root.filename, self.parent)
 
-    def SaveFile(self):
+    def export(self):
 
         self.filename = filedialog.asksaveasfilename(initialdir="/", title="Select file",
                                                      filetypes=(("txt files", "*.txt"), ("all files", "*.*")))
@@ -388,6 +383,25 @@ class Window:
             f.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (
             row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
         f.close()
+
+    def saveAs(self):
+        self.fileName = self.entry.get()
+        self.prompt.destroy()
+        newBook = AddressBook(self.fileName)
+        for row in self.addressBook.GetAllContacts():
+            contact = Contact(row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
+            newBook.AddContact(contact)
+        openBooks.append(self.fileName)
+        Window(self.fileName, self.parent)
+
+    def saveAsPrompt(self):
+        self.prompt = Toplevel(self.root)
+        fileNameLabel = Label(self.prompt, text="Address Book Name")
+        fileNameLabel.grid(row=0, column=0, pady=5, padx=5)
+        self.entry = Entry(self.prompt, bd=5)
+        self.entry.grid(row=0, column=1, padx=5, pady=5)
+        createButton = Button(self.prompt, text="Create", command=self.saveAs)
+        createButton.grid(row=0, column=2, padx=3, pady=3)
 
     def SortBy(self, column):
         '''

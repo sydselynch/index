@@ -21,9 +21,9 @@ class Start():
         self.prompt = None
         self.entry = None
         self.openWindows = {}
-        root.title("In[]Dex")
-        root.minsize(width=650, height=270)
-        root.maxsize(width=650, height=270)
+        self.root.title("In[]Dex")
+        self.root.minsize(width=650, height=270)
+        self.root.maxsize(width=650, height=270)
 
         self.InitializeUI()
 
