@@ -115,17 +115,17 @@ class Start():
         on given address book name, displays an error by calling InvalidNamePrompt()
         if the name is empty or the book already exists
         '''
+        books = []
         self.fileName = self.entry.get()
         if self.fileName != "":
             for book in self.bookList:
-                if self.fileName != book.name:
-                    newBook = AddressBook(self.fileName)
-                    self.bookList.append(newBook)
-                    self.prompt.destroy()
-                    break
-                else:
-                    self.InvalidNamePrompt()
-                    break
+                books.append(book.name)
+            if self.fileName not in books:
+                newBook = AddressBook(self.fileName)
+                self.bookList.append(newBook)
+                self.prompt.destroy()
+            else:
+                self.InvalidNamePrompt()
         else:
             self.InvalidNamePrompt()
         self.InitializeUI()
@@ -135,6 +135,7 @@ class Start():
         Prompt that displays error when user
         provides invalid address book name
         '''
+        self.prompt.destroy()
         self.prompt = Toplevel(self.root)
         self.prompt.minsize(width=225, height=75)
         self.prompt.maxsize(width=225, height=75)
