@@ -34,7 +34,8 @@ class Window:
 
     def InitializeUI(self):
         '''
-        Initializes all Tkinter widgets of the main screen of an address book
+        Initializes all Tkinter widgets of the main screen of an address book and
+        adds Window Object to the openWindows attribute in the Start class
         args: None
         returns: None
         '''
@@ -172,16 +173,26 @@ class Window:
         '''
         Warning prompt that requires confirmation from the
         user before deleting an address book
+        Checks the platform of the system to make small alterations of GUI
         '''
         self.selection = self.tree.focus()
+
+        # If system is a Mac, don't have spacing on text since Mac automatically centers
+        if sys.platform == 'darwin':
+            textOK = "Ok"
+            textCancel = "Cancel"
+        else:
+            textOK = "      OK      "
+            textCancel = "      Cancel      "
+
         if self.selection != "":
             self.prompt = Toplevel(self.root)
             self.prompt.title(string="Warning")
             self.prompt.minsize(width=225, height=75)
             self.prompt.maxsize(width=225, height=75)
             errorLabel = Label(self.prompt, text="Are you sure?")
-            yesButton = Button(self.prompt, text= "      OK      ", command= self.DeleteContact)
-            noButton = Button(self.prompt, text="      Cancel      ", command= self.prompt.destroy)
+            yesButton = Button(self.prompt, text= textOK, command= self.DeleteContact)
+            noButton = Button(self.prompt, text= textCancel, command= self.prompt.destroy)
             errorLabel.grid(row=0, column=0, columnspan=2, padx=65, pady=5)
             yesButton.grid(row=1, column=0, padx=(30,5), pady=5)
             noButton.grid(row=1, column=1, padx=(5,30), pady=5)

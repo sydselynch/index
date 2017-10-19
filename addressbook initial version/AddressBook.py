@@ -28,7 +28,7 @@ class AddressBook(object):
     def CreateDatabase(self):
 
         '''
-        Creates a database if it doesn't exist
+        Creates a database if it doesn't exist and set the conn (Connection to Database),  c (Database Executable) attributes.
 
         Returns:
             Bool -> True: If it successfully created the new database for the AddressBook
@@ -86,7 +86,8 @@ class AddressBook(object):
     def DeleteAddressBook(self):
 
         '''
-        Deletes AddressBook from database
+        Deletes AddressBook by using the conn attribute to close the database connection
+        and deletes the database file from the directory using the os module.
 
         Returns:
             Bool -> True: If it successfully deleted AddressBook
@@ -102,8 +103,7 @@ class AddressBook(object):
 
         Param:
             Contact
-            (fill in here what are the firstname and last name parameters)
-
+            ID
         Returns:
             The new contact
         '''
@@ -173,6 +173,12 @@ class AddressBook(object):
         return self.c.fetchall()
 
     def sortByFN(self):
+        '''
+        Uses the built in sort function on Sqlite3 to sort contacts by their FirstName
+
+        Returns:
+            array of sorted contacts by FirstName
+        '''
         if self.orderbyfirstname == 0:
             self.c.execute('SELECT * FROM AddressBook ORDER BY first_name ASC')
             self.orderbyfirstname = 1
@@ -183,6 +189,12 @@ class AddressBook(object):
         return self.c.fetchall()
 
     def sortByAddress(self):
+        '''
+        Uses the built in sort function on Sqlite3 to sort contacts by their Address
+
+        Returns:
+            array of sorted contacts by Address
+        '''
         if self.orderbyaddress == 0:
             self.c.execute('SELECT * FROM AddressBook ORDER BY address ASC')
             self.orderbyaddress = 1
@@ -192,6 +204,12 @@ class AddressBook(object):
         return self.c.fetchall()
 
     def sortByCity(self):
+        '''
+        Uses the built in sort function on Sqlite3 to sort contacts by their City
+
+        Returns:
+            array of sorted contacts by City
+        '''
         if self.orderbycity == 0:
             self.c.execute('SELECT * FROM AddressBook ORDER BY city ASC')
             self.orderbycity = 1
@@ -201,6 +219,12 @@ class AddressBook(object):
         return self.c.fetchall()
 
     def sortByState(self):
+        '''
+        Uses the built in sort function on Sqlite3 to sort contacts by their State
+
+        Returns:
+            array of sorted contacts by State
+        '''
         if self.orderbystate == 0:
             self.c.execute('SELECT * FROM AddressBook ORDER BY state ASC')
             self.orderbystate = 1
@@ -211,6 +235,12 @@ class AddressBook(object):
         return self.c.fetchall()
 
     def sortByPhone(self):
+        '''
+        Uses the built in sort function on Sqlite3 to sort contacts by their Phone
+
+        Returns:
+            array of sorted contacts by Phone
+        '''
         if self.orderbyphone == 0:
             self.c.execute('SELECT * FROM AddressBook ORDER BY phone_number ASC')
             self.orderbyphone = 1
@@ -220,6 +250,12 @@ class AddressBook(object):
         return self.c.fetchall()
 
     def sortByEmail(self):
+        '''
+        Uses the built in sort function on Sqlite3 to sort contacts by their Email
+
+        Returns:
+            array of sorted contacts by Email
+        '''
         if self.orderbyemail == 0:
             self.c.execute('SELECT * FROM AddressBook ORDER BY email ASC')
             self.orderbyemail = 1

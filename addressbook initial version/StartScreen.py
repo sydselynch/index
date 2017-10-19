@@ -10,6 +10,7 @@ class Start():
     def __init__(self, root):
         '''
         Main user interface of start screen when application is opened
+        Sets the attribute bookList by calling the method GetAllAddressBookEntries() from the AddressBookEntries class
         args: root - Tkinter instance
         returns: None
         '''
@@ -28,11 +29,18 @@ class Start():
 
     def InitializeUI(self):
         '''
-        Initializes all Tkinter widgets necessary for start screen
+        Initializes all Tkinter widgets necessary for start screen ands displays
+        all of the Addressbooks in the User Interface using the attribute bookList
+
         args: None
         returns: None
         '''
-        image = PhotoImage(file="Logo.gif")
+
+        # Use a different image if the sys platform is a Mac
+        if sys.platform == 'darwin':
+            image = PhotoImage(file="LogoMac.gif")
+        else:
+            image = PhotoImage(file="Logo.gif")
         label = Label(self.root, image=image, height=100, width=210)
         label.image = image
         label.grid(row=0, column=0,sticky="NW")
@@ -48,7 +56,7 @@ class Start():
         deleteButton = Button(self.root, text="Delete", width=20, command=self.DeletePrompt)
         deleteButton.grid(row=3, column=0, padx=25, pady=(10,0))
         quitButton = Button(self.root, text="Quit", width=20, command=self.QuitAllWindows)
-        quitButton.grid(row=4, column=0, pady=(10,10))
+        quitButton.grid(row=4, column=0, padx=25, pady=(10,10))
 
         #List of files
         addressBookListLabel = Label(self.root, text="Available Address Books", font=('TkHeadingFont', 13))
@@ -73,7 +81,7 @@ class Start():
 
     def NewFilePrompt(self):
         '''
-        Prompt that displays when user presses the new button,
+        Create a new window prompt that displays when user presses the new button,
         allows user to enter an address book name
         '''
         self.prompt = Toplevel(self.root)
@@ -87,7 +95,7 @@ class Start():
     def NewFile(self):
         '''
         Creates a new address book and .db file based
-        on given address book name, displays an error
+        on given address book name, displays an error by calling InvalidNamePrompt()
         if the name is empty or the book already exists
         '''
         self.fileName = self.entry.get()
