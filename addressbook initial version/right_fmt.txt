@@ -1,0 +1,10 @@
+id	first_name	last_name	address	city	state	zip_code	phone_number	email
+1	Jim	Li	1080 Patterson Tower	Eugene	OR	96542	5419549644	jinjiel@uoregon.edu
+2	Roger	Luo	2125Franklin	Eugene	OR	97721	5419549777	rogerl@uregon.edu
+3	Adams	Smith	Chase	Eugene	OR	97351	5419549644	adamss@uoregon.edu
+4	Noah	Johnson	1081 Patterson Tower	Eugene	OR	97242	5419549644	noahj@uoregon.edu
+5	Charlotte	Jones	1083 Patterson Tower	Eugene	OR	97421	5419549644	charj@uoregon.edu
+6	Harper	Davis	1084 Patterson Tower	Eugene	OR	97423	5419549644	harperd@uoregon.edu
+7	Lebron	James	Chereland	New York	OH	98023	6547284618	lebronj@uoregon.edu
+8	Hary	Lee	Shunde	Foshan	GD	58320	5412323432	343@uoregon.edu
+9	CIndy	Cheng	Duck	Eugene	OR	97047	5438271937	jinelw@uoregon.edu
