@@ -38,7 +38,7 @@ class Start():
 
         # Use a different image if the sys platform is a Mac
         if sys.platform == 'darwin':
-            image = PhotoImage(file="LogoMac.gif")
+            image = PhotoImage(file="Logo.gif")
         else:
             image = PhotoImage(file="Logo.gif")
         label = Label(self.root, image=image, height=100, width=210)
@@ -56,7 +56,7 @@ class Start():
         filemenu.add_command(label="New", command= self.NewFilePrompt)
         filemenu.add_command(label="Open...", command=self.OpenFileinMenu)
         filemenu.add_command(label="Import", command=self.ImportPrompt)
-        filemenu.add_command(label="Export", )
+        filemenu.add_command(label="Export", command=self.ExportPrompt)
         filemenu.add_separator()
         filemenu.add_command(label="Exit", command=self.QuitAllWindows)
 
@@ -255,6 +255,32 @@ class Start():
                     self.InvalidImportPrompt()
         elif(files[1] == "db"):
             pass
+
+    def ExportPrompt(self):
+        '''
+        Export selected address book to other directory as a txt file
+
+        '''
+
+        fileIndex = self.addressBookList.curselection()
+        if len(fileIndex) != 0 :
+            addressbook = AddressBook(self.bookList[fileIndex[0]].name)
+            self.filename = filedialog.asksaveasfilename(initialdir="/", title="Select file",
+                                                         filetypes=(("txt files", "*.txt"), ("all files", "*.*")))
+            f = open("%s.txt" % self.filename, "w")
+            f.write("id\tfirst_name\tlast_name\taddress\tcity\tstate\tzip_code\tphone_number\temail\n")
+            for row in addressbook.GetAllContacts():
+                f.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n"%(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8]))
+            f.close()
+            self.prompt = Toplevel(self.root)
+            self.prompt.title(string="Warning")
+            self.prompt.minsize(width=200, height=75)
+            self.prompt.maxsize(width=200, height=75)
+            textLabel = Label(self.prompt, text="Export has been successful!")
+            congratButton = Button(self.prompt, text="      OK      ", command=self.prompt.destroy)
+            textLabel.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
+            congratButton.grid(row=1, column=0, padx=(30, 5), pady=5)
+
 
 
     def InvalidImportPrompt(self):
