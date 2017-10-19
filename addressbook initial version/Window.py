@@ -379,8 +379,15 @@ class Window:
             Window(self.root.filename, self.parent)
 
     def SaveFile(self):
-        #not done
-        self.root.filename = filedialog.asksaveasfilename(initialdir = "/",title = "Select file",filetypes = (("DB files","*.db"),("all files","*.*")))
+
+        self.filename = filedialog.asksaveasfilename(initialdir="/", title="Select file",
+                                                     filetypes=(("txt files", "*.txt"), ("all files", "*.*")))
+        f = open("%s.txt" % self.filename, "w")
+        f.write("id\tfirst_name\tlast_name\taddress\tcity\tstate\tzip_code\tphone_number\temail\n")
+        for row in self.addressBook.GetAllContacts():
+            f.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (
+            row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
+        f.close()
 
     def SortBy(self, column):
         '''
