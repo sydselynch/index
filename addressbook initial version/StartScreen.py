@@ -111,9 +111,15 @@ class Start():
         if the name is empty or the book already exists
         '''
         self.fileName = self.entry.get()
-        if self.fileName not in self.bookList and self.fileName != "":
-            self.bookList.append(AddressBook(self.fileName))
-            self.prompt.destroy()
+        if self.fileName != "":
+            for book in self.bookList:
+                if self.fileName != book.name:
+                    newBook = AddressBook(self.fileName)
+                    self.bookList.append(newBook)
+                    self.prompt.destroy()
+                else:
+                    self.InvalidNamePrompt()
+                    break
         else:
             self.InvalidNamePrompt()
         self.InitializeUI()
