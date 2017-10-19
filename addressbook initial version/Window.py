@@ -362,7 +362,7 @@ class Window:
         self.prompt.destroy()
         if (self.fileName not in openBooks):
             openBooks.append(self.fileName)
-            Window(self.fileName)
+            Window(self.fileName, self.parent)
         else:
             #display error
             pass
@@ -376,7 +376,7 @@ class Window:
         self.root.filename = self.root.filename.split(".")[0]
         if self.root.filename != "":
             openBooks.append(self.root.filename)
-            Window(self.root.filename)
+            Window(self.root.filename, self.parent)
 
     def SaveFile(self):
         #not done
