@@ -122,6 +122,7 @@ class Start():
                     newBook = AddressBook(self.fileName)
                     self.bookList.append(newBook)
                     self.prompt.destroy()
+                    break
                 else:
                     self.InvalidNamePrompt()
                     break
