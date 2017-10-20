@@ -4,6 +4,7 @@ from tkinter import filedialog
 from AddressBook import *
 from Contact import Contact
 from StartScreen import *
+import re
 import os
 
 openBooks = []
@@ -156,8 +157,12 @@ class Window:
         args: None
         returns: None
         '''
+        five_digit = re.compile("^[0-9]{5}$")
+        night_digit = re.compile("^[0-9]{5}[-]{1}[0-9]{4}$")
         if self.FirstNameEntry.get() == "" and self.LastNameEntry.get() == "":
             self.invalidEntryPrompt()
+        elif not (five_digit.match(self.ZipEntry.get()) or night_digit.match(self.ZipEntry.get())):
+            self.invalidZipCodePrompt()
         else:
             contact = Contact(self.FirstNameEntry.get(), self.LastNameEntry.get(), self.AddressEntry.get(),
                               self.CityEntry.get(), self.StateEntry.get(), self.ZipEntry.get(), self.PhoneEntry.get(),
@@ -172,6 +177,16 @@ class Window:
         self.errorPrompt.maxsize(width=250, height=75)
         self.errorPrompt.title(string="Invalid Entry")
         textLabel = Label(self.errorPrompt, text="There must be a first or last name.")
+        button = Button(self.errorPrompt, text="OK", width=10, command=self.errorPrompt.destroy)
+        textLabel.pack()
+        button.pack(pady=5)
+
+    def invalidZipCodePrompt(self):
+        self.errorPrompt = Toplevel(self.root)
+        self.errorPrompt.minsize(width=250, height=75)
+        self.errorPrompt.maxsize(width=250, height=75)
+        self.errorPrompt.title(string="Invalid Entry")
+        textLabel = Label(self.errorPrompt, text="Invalid Zip Code.")
         button = Button(self.errorPrompt, text="OK", width=10, command=self.errorPrompt.destroy)
         textLabel.pack()
         button.pack(pady=5)
@@ -277,8 +292,12 @@ class Window:
         Saves the information inputted by the user when editing
         a contact, refreshes the interface
         '''
+        five_digit = re.compile("^[0-9]{5}$")
+        night_digit = re.compile("^[0-9]{5}[-]{1}[0-9]{4}$")
         if self.FirstNameEntry.get() == "" and self.LastNameEntry.get() == "":
             self.invalidEntryPrompt()
+        elif not (five_digit.match(self.ZipEntry.get()) or night_digit.match(self.ZipEntry.get())):
+            self.invalidZipCodePrompt()
         else:
             contact = Contact(self.FirstNameEntry.get(), self.LastNameEntry.get(), self.AddressEntry.get(),
                           self.CityEntry.get(), self.StateEntry.get(), self.ZipEntry.get(), self.PhoneEntry.get(),
