@@ -16,3 +16,8 @@ the Tkinter package.
 - On other platforms: python3 main.py
 
 To run from an executable, navigate to the "dist" directory and run main.exe.
+
+
+
+For additional documentation and user guides, please see our Assembla page at: 
+https://uocis.assembla.com/spaces/cis422f17-team1/wiki/Home
