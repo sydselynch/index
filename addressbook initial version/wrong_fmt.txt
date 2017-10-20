@@ -1,4 +1,0 @@
-CITY	STATE	ZIP	delivery	Second	LastName	FirstName	Phone
-Portsmouth	NH	214	11146 Schiller Drive		Lawrence	Gregory	1-(603)437-8450
-Portsmouth	NH	214	539 Summit Avenue		Young	Benjamin	1-(603)935-3606
-Springfield	MA	1105	395 Esker Plaza	apt #101	Brooks	Gloria	1-(413)500-8548
