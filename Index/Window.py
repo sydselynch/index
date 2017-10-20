@@ -357,6 +357,10 @@ class Window:
                 self.tree.delete(*self.tree.get_children())
                 for row in self.addressBook.searchEmail(self.searchEntry.get()):
                     self.tree.insert('', 'end', values=(row))
+            elif self.variable.get() == "ID":
+                self.tree.delete(*self.tree.get_children())
+                for row in self.addressBook.searchID(self.searchEntry.get()):
+                    self.tree.insert('', 'end', values=(row))
             else:
                 self.tree.delete(*self.tree.get_children())
                 for row in self.addressBook.GetAllContacts():
