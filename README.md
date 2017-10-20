@@ -16,17 +16,25 @@ AddressBookEntries.py
 
 Contact.py
 
+
+
 All frontend functionality is contained within the following files:
 
 Window.py
 
 StartScreen.py
 
+
+
 The application can be executed through main.py
+
+
 
 Additionally, all address books are saved as .db files in the directory of the application.
 
 The executable file is contained in the "dist" directory.
+
+
 
 To run from the command line, it is necessary to have a valid installation of Python3 and
 the Tkinter package.
@@ -34,6 +42,8 @@ the Tkinter package.
 - Navigate to the directory of main.py
 - On Windows: python main.py
 - On other platforms: python3 main.py
+
+
 
 To run from an executable, navigate to the "dist" directory and run main.exe.
 
