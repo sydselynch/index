@@ -403,7 +403,8 @@ class Window:
         '''
         self.root.filename = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("DB files","*.db"),("all files","*.*")))
         self.root.filename = self.root.filename.split(".")[0]
-        if self.root.filename != "":
+        self.root.filename = self.root.filename.split("/")[-1]
+        if self.root.filename != "" and self.root.filename not in openBooks:
             openBooks.append(self.root.filename)
             Window(self.root.filename, self.parent)
 
