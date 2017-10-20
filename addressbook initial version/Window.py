@@ -420,14 +420,20 @@ class Window:
         f.close()
 
     def saveAs(self):
+        books = []
+        for book in self.parent.bookList:
+            books.append(book.name)
         self.fileName = self.entry.get()
         self.prompt.destroy()
-        newBook = AddressBook(self.fileName)
-        for row in self.addressBook.GetAllContacts():
-            contact = Contact(row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
-            newBook.AddContact(contact)
-        openBooks.append(self.fileName)
-        Window(self.fileName, self.parent)
+        if self.fileName not in books:
+            newBook = AddressBook(self.fileName)
+            for row in self.addressBook.GetAllContacts():
+                contact = Contact(row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
+                newBook.AddContact(contact)
+            openBooks.append(self.fileName)
+            Window(self.fileName, self.parent)
+        else:
+            self.InvalidNamePrompt()
 
     def saveAsPrompt(self):
         self.prompt = Toplevel(self.root)
