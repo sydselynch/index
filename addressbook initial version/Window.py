@@ -154,15 +154,19 @@ class Window:
         '''
         Adds a contact to the open address book with information
         provided by the user and refreshes the interface
+        Validates the zipcode and email using regex
         args: None
         returns: None
         '''
         five_digit = re.compile("^[0-9]{5}$")
         night_digit = re.compile("^[0-9]{5}[-]{1}[0-9]{4}$")
+        email_validation = re.compile("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
         if self.FirstNameEntry.get() == "" and self.LastNameEntry.get() == "":
             self.invalidEntryPrompt()
-        elif not (five_digit.match(self.ZipEntry.get()) or night_digit.match(self.ZipEntry.get())):
-            self.invalidZipCodePrompt()
+        elif self.ZipEntry.get() != "" and not (five_digit.match(self.ZipEntry.get()) or night_digit.match(self.ZipEntry.get())):
+            self.invalidPrompt('Invalid Zip Code')
+        elif self.EmailEntry.get() != "" and not (email_validation.match(self.EmailEntry.get())):
+            self.invalidPrompt('Invalid Email')
         else:
             contact = Contact(self.FirstNameEntry.get(), self.LastNameEntry.get(), self.AddressEntry.get(),
                               self.CityEntry.get(), self.StateEntry.get(), self.ZipEntry.get(), self.PhoneEntry.get(),
@@ -177,16 +181,6 @@ class Window:
         self.errorPrompt.maxsize(width=250, height=75)
         self.errorPrompt.title(string="Invalid Entry")
         textLabel = Label(self.errorPrompt, text="There must be a first or last name.")
-        button = Button(self.errorPrompt, text="OK", width=10, command=self.errorPrompt.destroy)
-        textLabel.pack()
-        button.pack(pady=5)
-
-    def invalidZipCodePrompt(self):
-        self.errorPrompt = Toplevel(self.root)
-        self.errorPrompt.minsize(width=250, height=75)
-        self.errorPrompt.maxsize(width=250, height=75)
-        self.errorPrompt.title(string="Invalid Entry")
-        textLabel = Label(self.errorPrompt, text="Invalid Zip Code.")
         button = Button(self.errorPrompt, text="OK", width=10, command=self.errorPrompt.destroy)
         textLabel.pack()
         button.pack(pady=5)
@@ -294,10 +288,13 @@ class Window:
         '''
         five_digit = re.compile("^[0-9]{5}$")
         night_digit = re.compile("^[0-9]{5}[-]{1}[0-9]{4}$")
+        email_validation = re.compile("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
         if self.FirstNameEntry.get() == "" and self.LastNameEntry.get() == "":
             self.invalidEntryPrompt()
-        elif not (five_digit.match(self.ZipEntry.get()) or night_digit.match(self.ZipEntry.get())):
-            self.invalidZipCodePrompt()
+        elif self.ZipEntry.get() != "" and not (five_digit.match(self.ZipEntry.get()) or night_digit.match(self.ZipEntry.get())):
+            self.invalidPrompt('Invalid Zip Code')
+        elif self.EmailEntry.get() != "" and not (email_validation.match(self.EmailEntry.get())):
+            self.invalidPrompt('Invalid Email')
         else:
             contact = Contact(self.FirstNameEntry.get(), self.LastNameEntry.get(), self.AddressEntry.get(),
                           self.CityEntry.get(), self.StateEntry.get(), self.ZipEntry.get(), self.PhoneEntry.get(),
@@ -503,7 +500,7 @@ class Window:
         textLabel = Label(self.prompt, text="Invalid input: "+text)
         button = Button(self.prompt, text="OK", width=10, command=self.prompt.destroy)
         textLabel.pack()
-        button.pack(pady=5)
+        button.pack(padx=5)
 
     def OnClosing(self):
         '''
