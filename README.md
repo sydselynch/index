@@ -2,6 +2,7 @@
 CIS 422 Project 1
 
 In[]Dex
+
 An address book application
 
 This application is written in Python3 and can be run from the command line
@@ -14,3 +15,4 @@ the Tkinter package.
 - On Windows: python main.py
 - On other platforms: python3 main.py
 
+To run from an executable, navigate to the "dist" directory and run main.exe.
