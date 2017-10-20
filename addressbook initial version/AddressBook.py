@@ -304,10 +304,3 @@ class AddressBook(object):
         self.c.execute('SELECT * FROM AddressBook WHERE email LIKE ?', ("%"+email+"%",))
         return self.c.fetchall()
 
-    def print_book(self):
-        self.c.execute('SELECT * FROM AddressBook')
-        for row in self.c.fetchall():
-            print(row)
-
-    def print_name(self):
-        print(self.name)

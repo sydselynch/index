@@ -42,38 +42,6 @@ class TestAddressBook(unittest.TestCase):
         # delete address book
         address.DeleteAddressBook()
 
-    def testGetAllContact(self):
-        # TODO: Missing test (don't know how to test it since I don't understand what fetchall returns)
-        self.assertTrue(True)
-
-    def testGetAllContact_ByZipcode(self):
-        # TODO: Missing test (don't know how to test it since I don't understand what fetchall returns)
-        self.assertTrue(True)
-
-    def testGetAllContact_ByLastName(self):
-        # TODO: Missing test (don't know how to test it since I don't understand what fetchall returns)
-        self.assertTrue(True)
-
-    def sortByAddress(self):
-        # TODO: Missing test (don't know how to test it since I don't understand what fetchall returns)
-        self.assertTrue(True)
-
-    def sortByCity(self):
-        # TODO: Missing test (don't know how to test it since I don't understand what fetchall returns)
-        self.assertTrue(True)
-
-    def sortByState(self):
-        # TODO: Missing test (don't know how to test it since I don't understand what fetchall returns)
-        self.assertTrue(True)
-
-    def sortByPhone(self):
-        # TODO: Missing test (don't know how to test it since I don't understand what fetchall returns)
-        self.assertTrue(True)
-
-    def sortByEmail(self):
-        # TODO: Missing test (don't know how to test it since I don't understand what fetchall returns)
-        self.assertTrue(True)
-
     def testDeleteAddressBook(self):
         address = AddressBook('test')
         result = address.DeleteAddressBook()
