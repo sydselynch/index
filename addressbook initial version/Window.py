@@ -156,13 +156,25 @@ class Window:
         args: None
         returns: None
         '''
+        if self.FirstNameEntry.get() == "" and self.LastNameEntry.get() == "":
+            self.invalidEntryPrompt()
+        else:
+            contact = Contact(self.FirstNameEntry.get(), self.LastNameEntry.get(), self.AddressEntry.get(),
+                              self.CityEntry.get(), self.StateEntry.get(), self.ZipEntry.get(), self.PhoneEntry.get(),
+                              self.EmailEntry.get())
+            self.addressBook.AddContact(contact)
+            self.prompt.destroy()
+            self.InitializeUI()
 
-        contact = Contact(self.FirstNameEntry.get(), self.LastNameEntry.get(), self.AddressEntry.get(),
-                          self.CityEntry.get(), self.StateEntry.get(), self.ZipEntry.get(), self.PhoneEntry.get(),
-                          self.EmailEntry.get())
-        self.addressBook.AddContact(contact)
-        self.prompt.destroy()
-        self.InitializeUI()
+    def invalidEntryPrompt(self):
+        self.errorPrompt = Toplevel(self.root)
+        self.errorPrompt.minsize(width=250, height=75)
+        self.errorPrompt.maxsize(width=250, height=75)
+        self.errorPrompt.title(string="Invalid Entry")
+        textLabel = Label(self.errorPrompt, text="There must be a first or last name.")
+        button = Button(self.errorPrompt, text="OK", width=10, command=self.errorPrompt.destroy)
+        textLabel.pack()
+        button.pack(pady=5)
 
     def DeletePrompt(self):
         '''
@@ -265,13 +277,15 @@ class Window:
         Saves the information inputted by the user when editing
         a contact, refreshes the interface
         '''
-
-        contact = Contact(self.FirstNameEntry.get(), self.LastNameEntry.get(), self.AddressEntry.get(),
+        if self.FirstNameEntry.get() == "" and self.LastNameEntry.get() == "":
+            self.invalidEntryPrompt()
+        else:
+            contact = Contact(self.FirstNameEntry.get(), self.LastNameEntry.get(), self.AddressEntry.get(),
                           self.CityEntry.get(), self.StateEntry.get(), self.ZipEntry.get(), self.PhoneEntry.get(),
                           self.EmailEntry.get())
-        self.addressBook.UpdateContact(contact, self.ID)
-        self.prompt.destroy()
-        self.InitializeUI()
+            self.addressBook.UpdateContact(contact, self.ID)
+            self.prompt.destroy()
+            self.InitializeUI()
 
     def SearchPrompt(self):
         '''
@@ -378,7 +392,7 @@ class Window:
         self.prompt.minsize(width=225, height=75)
         self.prompt.maxsize(width=225, height=75)
         errorLabel = Label(self.prompt, text="Please enter a valid filename")
-        button = Button(self.prompt, text="     OK     ", command=self.prompt.destroy)
+        button = Button(self.prompt, text="OK", command=self.prompt.destroy, width=10)
         errorLabel.pack()
         button.pack()
 
@@ -462,6 +476,14 @@ class Window:
             self.tree.delete(*self.tree.get_children())
             for row in self.addressBook.sortByEmail():
                 self.tree.insert('', 'end', values=(row))
+
+    def invalidPrompt(self, text):
+        self.prompt = Toplevel(self.root)
+        self.prompt.title(string="Invalid Input")
+        textLabel = Label(self.prompt, text="Invalid input: "+text)
+        button = Button(self.prompt, text="OK", width=10, command=self.prompt.destroy)
+        textLabel.pack()
+        button.pack(pady=5)
 
     def OnClosing(self):
         '''
