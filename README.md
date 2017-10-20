@@ -45,7 +45,7 @@ the Tkinter package.
 
 
 
-To run from an executable, navigate to the "dist" directory and run main.exe.
+To run from an executable, navigate to the "dist" directory and run Index.exe.
 
 
 
