@@ -272,6 +272,10 @@ class AddressBook(object):
         self.c.close()
         self.conn.close()
 
+    def searchID(self, id):
+        self.c.execute('SELECT * FROM AddressBook WHERE id LIKE ?', ("%"+id+"%",))
+        return self.c.fetchall()
+
     def searchLN(self, ln):
         self.c.execute('SELECT * FROM AddressBook WHERE last_name LIKE ?', ("%"+ln+"%",))
         return self.c.fetchall()
@@ -303,4 +307,3 @@ class AddressBook(object):
     def searchEmail(self, email):
         self.c.execute('SELECT * FROM AddressBook WHERE email LIKE ?', ("%"+email+"%",))
         return self.c.fetchall()
-
